@@ -1,9 +1,7 @@
 package view;
-
 import controller.CSVImporter;
 import controller.TransactionController;
 import model.Transaction;
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
