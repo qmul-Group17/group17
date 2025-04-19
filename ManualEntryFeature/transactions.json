@@ -1,0 +1,18 @@
+[
+  {
+    "type": "INCOME",
+    "category": "Salary",
+    "amount": 30000.0,
+    "date": "2025-04-15",
+    "note": "salary for April",
+    "source": "Manual"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "Food",
+    "amount": 70.0,
+    "date": "2025-04-19",
+    "note": "pizza",
+    "source": "Manual"
+  }
+]
