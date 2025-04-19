@@ -44,7 +44,7 @@ public class TransactionController {
         return transactions;
     }
 
-    private void saveTransactions() {
+    public void saveTransactions() {
         try {
             Gson gson = new GsonBuilder()
                     .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
@@ -57,6 +57,91 @@ public class TransactionController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    // 添加并自动分类交易
+    public void addAndCategorizeTransaction(Transaction transaction) {
+        // 使用分类器自动分类
+        Transaction categorizedTransaction = TransactionCategorizer.categorize(transaction);
+        transactions.add(categorizedTransaction);
+        saveTransactions();
+        notifyListeners();
+    }
+
+    // 更新交易分类
+    public void updateCategory(int index, String newCategory) {
+        if (index >= 0 && index < transactions.size()) {
+            Transaction oldTransaction = transactions.get(index);
+
+            // 记录用户的修正用于机器学习
+            TransactionCategorizer.recordUserCorrection(oldTransaction, newCategory);
+
+            // 创建新的交易对象，只更新类别
+            Transaction updatedTransaction = new Transaction(
+                    oldTransaction.getType(),
+                    newCategory,
+                    oldTransaction.getAmount(),
+                    oldTransaction.getDate(),
+                    oldTransaction.getNote(),
+                    oldTransaction.getSource()
+            );
+
+            transactions.set(index, updatedTransaction);
+            saveTransactions();
+            notifyListeners();
+        }
+    }
+
+    // 对所有交易重新分类
+    public void recategorizeAll() {
+        List<Transaction> recategorized = TransactionCategorizer.categorizeAll(new ArrayList<>(transactions));
+        transactions.clear();
+        transactions.addAll(recategorized);
+        saveTransactions();
+        notifyListeners();
+    }
+
+    // 添加监听器相关代码
+    private List<TransactionChangeListener> listeners = new ArrayList<>();
+
+    /**
+     * 添加交易变更监听器
+     */
+    public void addChangeListener(TransactionChangeListener listener) {
+        listeners.add(listener);
+    }
+
+    /**
+     * 通知所有监听器交易已变更
+     */
+    private void notifyListeners() {
+        for (TransactionChangeListener listener : listeners) {
+            listener.onTransactionsChanged();
+        }
+    }
+
+    /**
+     * 导入CSV文件
+     */
+    public void importFromCSV(String filePath) {
+        // 使用CSVImporter导入数据并自动分类
+        CSVImporter importer = new CSVImporter();
+        List<Transaction> importedTransactions = importer.importTransactions(filePath);
+
+        // 对导入的交易进行自动分类
+        List<Transaction> categorizedTransactions = TransactionCategorizer.categorizeAll(importedTransactions);
+
+        // 添加到现有交易列表
+        transactions.addAll(categorizedTransactions);
+        saveTransactions();
+        notifyListeners();
+    }
+
+    /**
+     * 交易变更监听器接口
+     */
+    public interface TransactionChangeListener {
+        void onTransactionsChanged();
     }
 
     public void loadTransactions() {
