@@ -1,5 +1,6 @@
 package view;
 
+import controller.CSVImporter;
 import controller.TransactionController;
 import model.Transaction;
 
@@ -36,8 +37,21 @@ public class MainFrame extends JFrame {
             }
         });
 
+        JButton importBtn = new JButton("Import CSV");
+        importBtn.addActionListener(e -> {
+            JFileChooser fileChooser = new JFileChooser();
+            int result = fileChooser.showOpenDialog(this);
+            if (result == JFileChooser.APPROVE_OPTION) {
+                String filePath = fileChooser.getSelectedFile().getAbsolutePath();
+                List<Transaction> imported = CSVImporter.importFromCSV(filePath);
+                controller.importTransactions(imported); // 使用新的导入方法
+                updateTable();
+            }
+        });
+
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(addBtn);
+        buttonPanel.add(importBtn);
         add(buttonPanel, BorderLayout.SOUTH);
 
         updateTable(); // 初始加载数据到表格
