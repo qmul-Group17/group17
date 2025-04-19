@@ -35,6 +35,10 @@ public class TransactionController {
         saveTransactions(); // 自动保存
     }
 
+    public void importTransactions(List<Transaction> importedTransactions) {
+        transactions.addAll(importedTransactions);
+        saveTransactions(); // 自动保存
+    }
 
     public List<Transaction> getAllTransactions() {
         return transactions;
