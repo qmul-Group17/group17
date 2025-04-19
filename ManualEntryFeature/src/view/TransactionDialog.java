@@ -64,17 +64,18 @@ public class TransactionDialog extends JDialog {
         saveButton.addActionListener(e -> {
             try {
                 Transaction.Type type = Transaction.Type.valueOf((String) typeBox.getSelectedItem());
-                String category = (String) categoryBox.getSelectedItem();
+                String category = "待分类"; // 暂时设置一个默认分类，之后会被AI替换
                 double amount = Double.parseDouble(amountField.getText());
                 LocalDate date = LocalDate.parse(dateField.getText());
                 String note = noteField.getText();
                 String source = sourceField.getText();
 
+                // 创建交易对象
                 transaction = new Transaction(type, category, amount, date, note, source);
                 submitted = true;
                 dispose();
             } catch (Exception ex) {
-                JOptionPane.showMessageDialog(this, "Invalid input: " + ex.getMessage());
+                JOptionPane.showMessageDialog(this, "无效的输入: " + ex.getMessage());
             }
         });
 
