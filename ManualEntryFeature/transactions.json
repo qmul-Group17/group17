@@ -1,18 +1,322 @@
 [
   {
-    "type": "INCOME",
-    "category": "Salary",
-    "amount": 30000.0,
-    "date": "2025-04-15",
-    "note": "salary for April",
+    "type": "EXPENSE",
+    "category": "Food",
+    "amount": 50.0,
+    "date": "2025-04-18",
+    "note": "好的",
     "source": "Manual"
   },
   {
     "type": "EXPENSE",
-    "category": "Food",
-    "amount": 70.0,
-    "date": "2025-04-19",
-    "note": "pizza",
-    "source": "Manual"
+    "category": "food",
+    "amount": 18.18,
+    "date": "2024-11-30",
+    "note": "食品",
+    "source": "银行卡"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "shopping",
+    "amount": 3.8,
+    "date": "2024-11-29",
+    "note": "饮料",
+    "source": "银行卡"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "others",
+    "amount": 4.29,
+    "date": "2024-11-29",
+    "note": "洗衣机",
+    "source": "银行卡"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "shopping",
+    "amount": 6.8,
+    "date": "2024-11-27",
+    "note": "食品",
+    "source": "银行卡"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "beauty",
+    "amount": 170.35,
+    "date": "2024-11-27",
+    "note": "运动裤",
+    "source": "银行卡"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "beauty",
+    "amount": 146.15,
+    "date": "2024-11-27",
+    "note": "运动上衣",
+    "source": "银行卡"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "shopping",
+    "amount": 4.9,
+    "date": "2024-11-26",
+    "note": "食品",
+    "source": "银行卡"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "others",
+    "amount": 4.5,
+    "date": "2024-11-24",
+    "note": "洗衣机",
+    "source": "银行卡"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "food",
+    "amount": 24.9,
+    "date": "2024-11-23",
+    "note": "食品",
+    "source": "银行卡"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "food",
+    "amount": 4.0,
+    "date": "2024-11-22",
+    "note": "饮料",
+    "source": "银行卡"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "shopping",
+    "amount": 29.9,
+    "date": "2024-11-21",
+    "note": "日用品",
+    "source": "银行卡"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "others",
+    "amount": 98.8,
+    "date": "2024-11-20",
+    "note": "电影票",
+    "source": "银行卡"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "transport",
+    "amount": 18.7,
+    "date": "2024-11-20",
+    "note": "共享单车月卡",
+    "source": "银行卡"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "others",
+    "amount": 4.5,
+    "date": "2024-11-19",
+    "note": "洗衣机",
+    "source": "银行卡"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "food",
+    "amount": 68.99,
+    "date": "2024-11-18",
+    "note": "食品",
+    "source": "银行卡"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "shopping",
+    "amount": 6.84,
+    "date": "2024-11-17",
+    "note": "食品",
+    "source": "银行卡"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "shopping",
+    "amount": 3.74,
+    "date": "2024-11-17",
+    "note": "饮料",
+    "source": "银行卡"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "others",
+    "amount": 124.44,
+    "date": "2024-11-15",
+    "note": "药",
+    "source": "银行卡"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "food",
+    "amount": 22.34,
+    "date": "2024-11-14",
+    "note": "食品",
+    "source": "银行卡"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "others",
+    "amount": 4.5,
+    "date": "2024-11-13",
+    "note": "洗衣机",
+    "source": "银行卡"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "transport",
+    "amount": 17.49,
+    "date": "2024-11-10",
+    "note": "打车订单",
+    "source": "银行卡"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "shopping",
+    "amount": 13.04,
+    "date": "2024-11-09",
+    "note": "食品",
+    "source": "银行卡"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "others",
+    "amount": 4.5,
+    "date": "2024-11-08",
+    "note": "洗衣机",
+    "source": "银行卡"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "others",
+    "amount": 489.41,
+    "date": "2024-11-07",
+    "note": "舞蹈剧",
+    "source": "银行卡"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "others",
+    "amount": 19.67,
+    "date": "2024-11-06",
+    "note": "电影票",
+    "source": "银行卡"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "shopping",
+    "amount": 10.0,
+    "date": "2024-11-04",
+    "note": "食品",
+    "source": "银行卡"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "shopping",
+    "amount": 12.1,
+    "date": "2024-11-03",
+    "note": "日用品",
+    "source": "银行卡"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "others",
+    "amount": 290.59,
+    "date": "2024-11-03",
+    "note": "护肤品",
+    "source": "银行卡"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "others",
+    "amount": 86.72,
+    "date": "2024-11-03",
+    "note": "化妆品",
+    "source": "银行卡"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "others",
+    "amount": 4.5,
+    "date": "2024-11-02",
+    "note": "洗衣机",
+    "source": "银行卡"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "shopping",
+    "amount": 5.2,
+    "date": "2024-11-01",
+    "note": "饮料",
+    "source": "银行卡"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "food",
+    "amount": 25.44,
+    "date": "2024-10-31",
+    "note": "食品",
+    "source": "银行卡"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "food",
+    "amount": 13.14,
+    "date": "2024-10-28",
+    "note": "食品",
+    "source": "银行卡"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "beauty",
+    "amount": 294.0,
+    "date": "2024-10-27",
+    "note": "休闲裤",
+    "source": "银行卡"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "shopping",
+    "amount": 4.99,
+    "date": "2024-10-26",
+    "note": "饮料",
+    "source": "银行卡"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "shopping",
+    "amount": 8.46,
+    "date": "2024-10-25",
+    "note": "食品",
+    "source": "银行卡"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "others",
+    "amount": 4.5,
+    "date": "2024-10-25",
+    "note": "洗衣机",
+    "source": "银行卡"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "transport",
+    "amount": 19.61,
+    "date": "2024-10-23",
+    "note": "打车订单",
+    "source": "银行卡"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "food",
+    "amount": 3.94,
+    "date": "2024-10-20",
+    "note": "食品",
+    "source": "银行卡"
   }
 ]
