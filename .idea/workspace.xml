@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="a46d0b82-08f6-4de0-bd0d-d6a3eff46f7d" name="更改" comment="new version" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <favorite-branches>
+      <branch-storage>
+        <map>
+          <entry type="REMOTE">
+            <value>
+              <list>
+                <branch-info repo="$PROJECT_DIR$" source="origin/XiwenZHeng" />
+              </list>
+            </value>
+          </entry>
+        </map>
+      </branch-storage>
+    </favorite-branches>
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="ProjectErrors" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 5
+}</component>
+  <component name="ProjectId" id="2vxMu1dssSqTLnmiQQyy0ucMsYf" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "XiwenZHeng",
+    "last_opened_file_path": "D:/PERSONALZXW/BUPT/software engineering/git/group17",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "onboarding.tips.debug.path": "D:/PERSONALZXW/BUPT/software engineering/git/group17/ManualEntryFeature/src/Main.java",
+    "project.structure.last.edited": "项目",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "advanced.settings",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\PERSONALZXW\BUPT\software engineering\git\group17" />
+      <recent name="D:\PERSONALZXW\BUPT\software engineering\git\group17\ManualEntryFeature" />
+      <recent name="D:\PERSONALZXW\BUPT\software engineering\git\group17\.idea" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\PERSONALZXW\BUPT\software engineering\git\group17" />
+      <recent name="D:\PERSONALZXW\BUPT\software engineering\git\group17\ManualEntryFeature" />
+    </key>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-fbdcb00ec9e3-intellij.indexing.shared.core-IU-251.23774.435" />
+        <option value="bundled-js-predefined-d6986cc7102b-f27c65a3e318-JavaScript-IU-251.23774.435" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="默认任务">
+      <changelist id="a46d0b82-08f6-4de0-bd0d-d6a3eff46f7d" name="更改" comment="" />
+      <created>1745082490985</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1745082490985</updated>
+      <workItem from="1745082492151" duration="2254000" />
+      <workItem from="1745085214826" duration="5939000" />
+    </task>
+    <task id="LOCAL-00001" summary="add chart view for data analysis">
+      <option name="closed" value="true" />
+      <created>1745086496614</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1745086496614</updated>
+    </task>
+    <task id="LOCAL-00002" summary="add chart view for data analysis">
+      <option name="closed" value="true" />
+      <created>1745088505582</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1745088505582</updated>
+    </task>
+    <task id="LOCAL-00003" summary="add chart view for data analysis">
+      <option name="closed" value="true" />
+      <created>1745088809909</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1745088809909</updated>
+    </task>
+    <task id="LOCAL-00004" summary="add chart view for data analysis">
+      <option name="closed" value="true" />
+      <created>1745088893865</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1745088893865</updated>
+    </task>
+    <task id="LOCAL-00005" summary="add chart view for data analysis">
+      <option name="closed" value="true" />
+      <created>1745089100836</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1745089100836</updated>
+    </task>
+    <task id="LOCAL-00006" summary="change project name">
+      <option name="closed" value="true" />
+      <created>1745089934791</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1745089934791</updated>
+    </task>
+    <task id="LOCAL-00007" summary="fix problems">
+      <option name="closed" value="true" />
+      <created>1745090543815</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1745090543815</updated>
+    </task>
+    <task id="LOCAL-00008" summary="new version">
+      <option name="closed" value="true" />
+      <created>1745091087864</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1745091087864</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Create main.java" />
+    <MESSAGE value="Merge pull request #1 from qmul-Group17/JingxiLiang&#10;&#10;1.0 Basic import" />
+    <MESSAGE value="change project name" />
+    <MESSAGE value="add chart view for data analysis" />
+    <MESSAGE value="fix problems" />
+    <MESSAGE value="new version" />
+    <option name="LAST_COMMIT_MESSAGE" value="new version" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/ManualEntryFeature/src/Main.java</url>
+          <line>11</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>
