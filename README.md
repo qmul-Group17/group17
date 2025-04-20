@@ -94,5 +94,5 @@ This section was independently developed and implemented.
 | Pengzhu Guo   | US4 Multi-Currency Support                                                  |
 | Shumeng Liang | US3 Import CSV Files                                                        |
 | Yijing Wang   | US7 Auto-categorization, add AI-powered expense analysis and summary reports|
-| Xiwen Zheng   | Data visualization with charts, UI/UX refinement                            |
+| Xiwen Zheng   | US13 Data visualization with charts, UI/UX refinement                         |
 | Jiawen Zhang  | US10 Bill Export Function                                                        |
