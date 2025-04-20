@@ -7,9 +7,12 @@ import model.Transaction;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -128,6 +131,36 @@ public class MainFrame extends JFrame {
             }
         });
 
+        JButton exportBtn = new JButton("Export CSV");
+        exportBtn.addActionListener(e -> {
+            TableModel model = table.getModel();
+            try (FileWriter writer = new FileWriter("output.csv")) {
+                // 写入列名（标题）到CSV文件
+                for (int i = 0; i < model.getColumnCount(); i++) {
+                    writer.append(model.getColumnName(i));
+                    if (i < model.getColumnCount() - 1) {
+                        writer.append(','); // 列分隔符，除了最后一列外
+                    } else {
+                        writer.append('\n'); // 最后一列后换行
+                    }
+                }
+                // 写入数据行到CSV文件
+                for (int i = 0; i < model.getRowCount(); i++) {
+                    for (int j = 0; j < model.getColumnCount(); j++) {
+                        writer.append(String.valueOf(model.getValueAt(i, j))); // 将值转换为字符串并写入CSV文件
+                        if (j < model.getColumnCount() - 1) {
+                            writer.append(','); // 列分隔符，除了最后一列外
+                        } else {
+                            writer.append('\n'); // 最后一列后换行，换行表示新的一行数据开始
+                        }
+                    }
+                }
+                JOptionPane.showMessageDialog(this, "export success");
+            } catch (IOException e1) {
+                JOptionPane.showMessageDialog(this, "Error writing to file: " + e1.getMessage());
+            }
+        });
+
         JButton importBtn = new JButton("Import CSV");
         importBtn.addActionListener(e -> {
             JFileChooser fileChooser = new JFileChooser();
@@ -145,6 +178,7 @@ public class MainFrame extends JFrame {
 
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(addBtn);
+        buttonPanel.add(exportBtn);
         buttonPanel.add(importBtn);
         JButton chartBtn = new JButton("View Chart");//graph
         chartBtn.addActionListener(e -> showChart());
