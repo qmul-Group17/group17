@@ -1,14 +1,6 @@
 [
   {
     "type": "EXPENSE",
-    "category": "Food",
-    "amount": 50.0,
-    "date": "2025-04-18",
-    "note": "好的",
-    "source": "Manual"
-  },
-  {
-    "type": "EXPENSE",
     "category": "food",
     "amount": 18.18,
     "date": "2024-11-30",
