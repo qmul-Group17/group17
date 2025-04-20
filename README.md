@@ -91,8 +91,8 @@ This section was independently developed and implemented.
 | Team Member   | Contributions                                                               |
 |---------------|-----------------------------------------------------------------------------|
 | Jingxi Linag  | US1 Manual entry and local storage with JSON                                |
-| Pengzhu Guo   | US4 multi-Currency Support                                                  |
-| Shumeng Liang | US3 import CSV Files                                                        |
-| Yijing Wang   | US7 auto-categorization, add AI-powered expense analysis and summary reports|
+| Pengzhu Guo   | US4 Multi-Currency Support                                                  |
+| Shumeng Liang | US3 Import CSV Files                                                        |
+| Yijing Wang   | US7 Auto-categorization, add AI-powered expense analysis and summary reports|
 | Xiwen Zheng   | Data visualization with charts, UI/UX refinement                            |
 | Jiawen Zhang  | US10 Bill Export Function                                                        |
