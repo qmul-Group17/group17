@@ -10,6 +10,8 @@ This project is a personal finance tracker built with Java, focusing on foundati
 - **Implemented Features**:
   - Input fields: type (expense/income), category, amount, date, note, and source.
   - Category presets for income and expense (with the ability to add custom ones).
+  - Expenditure category including food, transport, shopping, health, travel, beauty, entertainment, transfer, housing, social, education, communication, red packet, investment, lend, repayment, parenting, pet, others.
+  - Income category including transfer in, salary, investment, red packet in, borrow, receive, others.
   - Local data persistence using a built-in `.json` file to simulate a simple database.
 - **Status**: Completed
 
