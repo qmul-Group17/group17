@@ -1,0 +1,1208 @@
+[
+  {
+    "type": "EXPENSE",
+    "category": "Food",
+    "amount": 13.6,
+    "date": "2025-05-20",
+    "note": "Dinner",
+    "source": "Manual",
+    "editTime": "2025-05-20"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "Transport",
+    "amount": 18.6,
+    "date": "2025-05-20",
+    "note": "Taxi",
+    "source": "Manual",
+    "editTime": "2025-05-21"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "Food",
+    "amount": 10.0,
+    "date": "2025-05-19",
+    "note": "Drinks",
+    "source": "Manual",
+    "editTime": "2025-05-19"
+  },
+  {
+    "type": "INCOME",
+    "category": "Other",
+    "amount": 66.0,
+    "date": "2025-05-16",
+    "note": "",
+    "source": "Manual",
+    "editTime": "2025-05-18"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "Transport",
+    "amount": 48.81,
+    "date": "2025-05-10",
+    "note": "Taxi",
+    "source": "Manual",
+    "editTime": "2025-05-18"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "Food",
+    "amount": 64.56,
+    "date": "2025-05-06",
+    "note": "Drinks",
+    "source": "Bank Transfer",
+    "editTime": "2025-05-18"
+  },
+  {
+    "type": "INCOME",
+    "category": "Other",
+    "amount": 1085.54,
+    "date": "2025-05-05",
+    "note": "Refund",
+    "source": "Bank Transfer",
+    "editTime": "2025-05-18"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "Entertainment",
+    "amount": 246.92,
+    "date": "2025-05-04",
+    "note": "Concert",
+    "source": "Manual",
+    "editTime": "2025-05-17"
+  },
+  {
+    "type": "INCOME",
+    "category": "Other",
+    "amount": 4379.82,
+    "date": "2025-04-29",
+    "note": "Gift",
+    "source": "Manual",
+    "editTime": "2025-05-17"
+  },
+  {
+    "type": "INCOME",
+    "category": "Salary",
+    "amount": 2720.46,
+    "date": "2025-04-29",
+    "note": "Salary",
+    "source": "Manual",
+    "editTime": "2025-05-17"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "Entertainment",
+    "amount": 13.7,
+    "date": "2025-04-28",
+    "note": "Theatre",
+    "source": "Cash",
+    "editTime": "2025-05-15"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "Transport",
+    "amount": 36.61,
+    "date": "2025-04-25",
+    "note": "Shared bike",
+    "source": "Bank Transfer",
+    "editTime": "2025-05-15"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "Beauty",
+    "amount": 96.71,
+    "date": "2025-04-24",
+    "note": "Cosmetics",
+    "source": "Credit Card",
+    "editTime": "2025-05-15"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "Beauty",
+    "amount": 196.78,
+    "date": "2025-04-21",
+    "note": "Haircut",
+    "source": "Bank Transfer",
+    "editTime": "2025-05-15"
+  },
+  {
+    "type": "INCOME",
+    "category": "Other",
+    "amount": 19.0,
+    "date": "2025-04-20",
+    "note": "Drinks",
+    "source": "Manual",
+    "editTime": "2025-05-14"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "Other",
+    "amount": 50.0,
+    "date": "2025-04-18",
+    "note": "Okay",
+    "source": "Manual",
+    "editTime": "2025-05-13"
+  },
+  {
+    "type": "INCOME",
+    "category": "Lend",
+    "amount": 520.33,
+    "date": "2025-04-14",
+    "note": "Money lent returned",
+    "source": "Cash",
+    "editTime": "2025-05-12"
+  },
+  {
+    "type": "INCOME",
+    "category": "Lend",
+    "amount": 5475.5,
+    "date": "2025-04-11",
+    "note": "Loan repaid",
+    "source": "Cash",
+    "editTime": "2025-05-12"
+  },
+  {
+    "type": "INCOME",
+    "category": "Transfer In",
+    "amount": 6199.68,
+    "date": "2025-04-11",
+    "note": "Transport subsidy",
+    "source": "Bank Transfer",
+    "editTime": "2025-05-12"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "Entertainment",
+    "amount": 161.71,
+    "date": "2025-04-08",
+    "note": "Concert",
+    "source": "Credit Card",
+    "editTime": "2025-05-12"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "Beauty",
+    "amount": 259.65,
+    "date": "2025-04-08",
+    "note": "Skincare",
+    "source": "Bank Transfer",
+    "editTime": "2025-05-12"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "Food",
+    "amount": 4.06,
+    "date": "2025-04-07",
+    "note": "Drinks",
+    "source": "Cash",
+    "editTime": "2025-05-12"
+  },
+  {
+    "type": "INCOME",
+    "category": "Salary",
+    "amount": 1629.13,
+    "date": "2025-04-07",
+    "note": "Bonus",
+    "source": "Cash",
+    "editTime": "2025-05-12"
+  },
+  {
+    "type": "INCOME",
+    "category": "Other",
+    "amount": 3103.81,
+    "date": "2025-04-04",
+    "note": "Unknown income",
+    "source": "Manual",
+    "editTime": "2025-05-10"
+  },
+  {
+    "type": "INCOME",
+    "category": "Other",
+    "amount": 4738.63,
+    "date": "2025-03-27",
+    "note": "Refund",
+    "source": "Manual",
+    "editTime": "2025-04-19"
+  },
+  {
+    "type": "INCOME",
+    "category": "Other",
+    "amount": 7324.79,
+    "date": "2025-03-26",
+    "note": "Cash gift",
+    "source": "Manual",
+    "editTime": "2025-04-17"
+  },
+  {
+    "type": "INCOME",
+    "category": "Lend",
+    "amount": 4857.96,
+    "date": "2025-03-25",
+    "note": "Money lent returned",
+    "source": "Cash",
+    "editTime": "2025-04-16"
+  },
+  {
+    "type": "INCOME",
+    "category": "Other",
+    "amount": 3125.97,
+    "date": "2025-03-22",
+    "note": "Gift",
+    "source": "Bank Transfer",
+    "editTime": "2025-04-16"
+  },
+  {
+    "type": "INCOME",
+    "category": "Other",
+    "amount": 2608.6,
+    "date": "2025-03-14",
+    "note": "Refund",
+    "source": "Bank Transfer",
+    "editTime": "2025-04-16"
+  },
+  {
+    "type": "INCOME",
+    "category": "Salary",
+    "amount": 6591.37,
+    "date": "2025-03-13",
+    "note": "Monthly salary",
+    "source": "Manual",
+    "editTime": "2025-04-15"
+  },
+  {
+    "type": "INCOME",
+    "category": "Other",
+    "amount": 4521.1,
+    "date": "2025-03-09",
+    "note": "Freelance",
+    "source": "Manual",
+    "editTime": "2025-04-15"
+  },
+  {
+    "type": "INCOME",
+    "category": "Other",
+    "amount": 2872.03,
+    "date": "2025-03-09",
+    "note": "Freelance",
+    "source": "Bank Transfer",
+    "editTime": "2025-04-15"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "Health",
+    "amount": 28.51,
+    "date": "2025-03-08",
+    "note": "Medicine",
+    "source": "Bank Transfer",
+    "editTime": "2025-04-15"
+  },
+  {
+    "type": "INCOME",
+    "category": "Other",
+    "amount": 1671.82,
+    "date": "2025-03-04",
+    "note": "Freelance",
+    "source": "Manual",
+    "editTime": "2025-04-14"
+  },
+  {
+    "type": "INCOME",
+    "category": "Salary",
+    "amount": 6890.88,
+    "date": "2025-02-28",
+    "note": "Monthly salary",
+    "source": "Manual",
+    "editTime": "2025-04-14"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "Beauty",
+    "amount": 258.45,
+    "date": "2025-02-24",
+    "note": "Cosmetics",
+    "source": "Credit Card",
+    "editTime": "2025-04-13"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "Food",
+    "amount": 236.95,
+    "date": "2025-02-24",
+    "note": "Snacks",
+    "source": "Credit Card",
+    "editTime": "2025-04-13"
+  },
+  {
+    "type": "INCOME",
+    "category": "Salary",
+    "amount": 896.94,
+    "date": "2025-02-23",
+    "note": "Salary",
+    "source": "Manual",
+    "editTime": "2025-04-13"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "Entertainment",
+    "amount": 277.06,
+    "date": "2025-02-18",
+    "note": "Theatre",
+    "source": "Cash",
+    "editTime": "2025-04-13"
+  },
+  {
+    "type": "INCOME",
+    "category": "Salary",
+    "amount": 535.76,
+    "date": "2025-02-16",
+    "note": "Salary",
+    "source": "Manual",
+    "editTime": "2025-04-13"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "Beauty",
+    "amount": 185.48,
+    "date": "2025-02-16",
+    "note": "Skincare",
+    "source": "Bank Transfer",
+    "editTime": "2025-04-11"
+  },
+  {
+    "type": "INCOME",
+    "category": "Salary",
+    "amount": 3398.87,
+    "date": "2025-02-15",
+    "note": "Year-end bonus",
+    "source": "Bank Transfer",
+    "editTime": "2025-04-11"
+  },
+  {
+    "type": "INCOME",
+    "category": "Other",
+    "amount": 1159.48,
+    "date": "2025-02-14",
+    "note": "Gift",
+    "source": "Bank Transfer",
+    "editTime": "2025-04-11"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "Beauty",
+    "amount": 209.36,
+    "date": "2025-02-13",
+    "note": "Haircut",
+    "source": "Cash",
+    "editTime": "2025-04-11"
+  },
+  {
+    "type": "INCOME",
+    "category": "Lend",
+    "amount": 1558.91,
+    "date": "2025-02-13",
+    "note": "Loan repaid",
+    "source": "Bank Transfer",
+    "editTime": "2025-04-11"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "Other",
+    "amount": 20.8,
+    "date": "2025-02-09",
+    "note": "Daily goods",
+    "source": "Credit Card",
+    "editTime": "2025-04-11"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "Transport",
+    "amount": 131.87,
+    "date": "2025-02-07",
+    "note": "Subway",
+    "source": "Credit Card",
+    "editTime": "2025-04-11"
+  },
+  {
+    "type": "INCOME",
+    "category": "Borrow",
+    "amount": 448.23,
+    "date": "2025-02-03",
+    "note": "Borrowed from friend",
+    "source": "Bank Transfer",
+    "editTime": "2025-04-11"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "Entertainment",
+    "amount": 62.49,
+    "date": "2025-02-03",
+    "note": "Concert",
+    "source": "Credit Card",
+    "editTime": "2025-04-11"
+  },
+  {
+    "type": "INCOME",
+    "category": "Other",
+    "amount": 1754.36,
+    "date": "2025-02-02",
+    "note": "Gift",
+    "source": "Bank Transfer",
+    "editTime": "2025-04-11"
+  },
+  {
+    "type": "INCOME",
+    "category": "Transfer In",
+    "amount": 7652.8,
+    "date": "2025-01-29",
+    "note": "Transport subsidy",
+    "source": "Bank Transfer",
+    "editTime": "2025-04-11"
+  },
+  {
+    "type": "INCOME",
+    "category": "Other",
+    "amount": 2328.56,
+    "date": "2025-01-29",
+    "note": "Gift",
+    "source": "Manual",
+    "editTime": "2025-04-11"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "Entertainment",
+    "amount": 158.22,
+    "date": "2025-01-22",
+    "note": "Movie ticket",
+    "source": "Bank Transfer",
+    "editTime": "2025-04-10"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "Entertainment",
+    "amount": 219.39,
+    "date": "2025-01-16",
+    "note": "Movie ticket",
+    "source": "Cash",
+    "editTime": "2025-04-10"
+  },
+  {
+    "type": "INCOME",
+    "category": "Lend",
+    "amount": 1163.96,
+    "date": "2025-01-14",
+    "note": "Money lent returned",
+    "source": "Manual",
+    "editTime": "2025-04-10"
+  },
+  {
+    "type": "INCOME",
+    "category": "Transfer In",
+    "amount": 2809.45,
+    "date": "2025-01-06",
+    "note": "Travel refund",
+    "source": "Cash",
+    "editTime": "2025-04-10"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "Entertainment",
+    "amount": 10.14,
+    "date": "2025-01-05",
+    "note": "Theatre",
+    "source": "Bank Transfer",
+    "editTime": "2025-04-10"
+  },
+  {
+    "type": "INCOME",
+    "category": "Transfer In",
+    "amount": 3205.33,
+    "date": "2025-01-03",
+    "note": "Transport subsidy",
+    "source": "Cash",
+    "editTime": "2025-04-10"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "Beauty",
+    "amount": 146.83,
+    "date": "2024-12-30",
+    "note": "Cosmetics",
+    "source": "Credit Card",
+    "editTime": "2025-04-10"
+  },
+  {
+    "type": "INCOME",
+    "category": "Other",
+    "amount": 77.69,
+    "date": "2024-12-29",
+    "note": "Laundry",
+    "source": "Cash",
+    "editTime": "2025-04-10"
+  },
+  {
+    "type": "INCOME",
+    "category": "Borrow",
+    "amount": 5467.27,
+    "date": "2024-12-28",
+    "note": "Borrowed from friend",
+    "source": "Cash",
+    "editTime": "2025-04-10"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "Entertainment",
+    "amount": 91.0,
+    "date": "2024-12-28",
+    "note": "Movie ticket",
+    "source": "Manual",
+    "editTime": "2025-04-10"
+  },
+  {
+    "type": "INCOME",
+    "category": "Transfer In",
+    "amount": 3909.94,
+    "date": "2024-12-26",
+    "note": "Travel refund",
+    "source": "Manual",
+    "editTime": "2025-04-09"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "Other",
+    "amount": 176.81,
+    "date": "2024-12-14",
+    "note": "Daily goods",
+    "source": "Bank Transfer",
+    "editTime": "2025-04-09"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "Beauty",
+    "amount": 139.68,
+    "date": "2024-12-12",
+    "note": "Haircut",
+    "source": "Manual",
+    "editTime": "2025-04-09"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "Transport",
+    "amount": 75.16,
+    "date": "2024-12-10",
+    "note": "Subway",
+    "source": "Bank Transfer",
+    "editTime": "2025-04-09"
+  },
+  {
+    "type": "INCOME",
+    "category": "Salary",
+    "amount": 3439.1,
+    "date": "2024-12-09",
+    "note": "Year-end bonus",
+    "source": "Bank Transfer",
+    "editTime": "2025-04-09"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "Food",
+    "amount": 264.38,
+    "date": "2024-12-06",
+    "note": "Groceries",
+    "source": "Cash",
+    "editTime": "2025-04-09"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "Food",
+    "amount": 239.42,
+    "date": "2024-12-06",
+    "note": "Snacks",
+    "source": "Bank Transfer",
+    "editTime": "2025-04-09"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "Transport",
+    "amount": 138.96,
+    "date": "2024-12-03",
+    "note": "Shared bike",
+    "source": "Cash",
+    "editTime": "2025-04-09"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "Food",
+    "amount": 262.94,
+    "date": "2024-12-01",
+    "note": "Drinks",
+    "source": "Credit Card",
+    "editTime": "2025-04-09"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "Transport",
+    "amount": 185.12,
+    "date": "2024-12-01",
+    "note": "Taxi",
+    "source": "Bank Transfer",
+    "editTime": "2025-04-09"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "Food",
+    "amount": 18.18,
+    "date": "2024-11-30",
+    "note": "Food",
+    "source": "Bank Card",
+    "editTime": "2025-04-09"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "Food",
+    "amount": 3.8,
+    "date": "2024-11-29",
+    "note": "Drink",
+    "source": "Bank Card",
+    "editTime": "2025-04-09"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "Transport",
+    "amount": 82.75,
+    "date": "2024-11-29",
+    "note": "Subway",
+    "source": "Manual",
+    "editTime": "2025-04-08"
+  },
+  {
+    "type": "INCOME",
+    "category": "Other",
+    "amount": 1835.11,
+    "date": "2024-11-29",
+    "note": "Reimbursement for meals",
+    "source": "Manual",
+    "editTime": "2025-04-07"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "Other",
+    "amount": 4.29,
+    "date": "2024-11-29",
+    "note": "Laundry",
+    "source": "Bank Card",
+    "editTime": "2025-04-07"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "Food",
+    "amount": 6.8,
+    "date": "2024-11-27",
+    "note": "Food",
+    "source": "Bank Card",
+    "editTime": "2025-04-07"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "Shopping",
+    "amount": 170.35,
+    "date": "2024-11-27",
+    "note": "Sweatpants",
+    "source": "Bank Card",
+    "editTime": "2025-04-07"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "Shopping",
+    "amount": 146.15,
+    "date": "2024-11-27",
+    "note": "Sportswear",
+    "source": "Bank Card",
+    "editTime": "2025-04-07"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "Food",
+    "amount": 4.9,
+    "date": "2024-11-26",
+    "note": "Food",
+    "source": "Bank Card",
+    "editTime": "2025-04-07"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "Transport",
+    "amount": 251.96,
+    "date": "2024-11-26",
+    "note": "Taxi",
+    "source": "Bank Transfer",
+    "editTime": "2025-04-07"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "Other",
+    "amount": 4.5,
+    "date": "2024-11-24",
+    "note": "Laundry",
+    "source": "Bank Card",
+    "editTime": "2025-04-07"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "Food",
+    "amount": 24.9,
+    "date": "2024-11-23",
+    "note": "Food",
+    "source": "Bank Card",
+    "editTime": "2025-04-07"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "Entertainment",
+    "amount": 98.94,
+    "date": "2024-11-22",
+    "note": "Movie ticket",
+    "source": "Cash",
+    "editTime": "2025-04-07"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "Food",
+    "amount": 4.0,
+    "date": "2024-11-22",
+    "note": "Drink",
+    "source": "Bank Card",
+    "editTime": "2025-04-07"
+  },
+  {
+    "type": "INCOME",
+    "category": "Lend",
+    "amount": 7021.6,
+    "date": "2024-11-22",
+    "note": "Money lent returned",
+    "source": "Manual",
+    "editTime": "2025-04-07"
+  },
+  {
+    "type": "INCOME",
+    "category": "Other",
+    "amount": 7575.23,
+    "date": "2024-11-22",
+    "note": "Reimbursement for meals",
+    "source": "Bank Transfer",
+    "editTime": "2025-04-07"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "Other",
+    "amount": 29.9,
+    "date": "2024-11-21",
+    "note": "Daily goods",
+    "source": "Bank Card",
+    "editTime": "2025-04-07"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "Transport",
+    "amount": 18.7,
+    "date": "2024-11-20",
+    "note": "Sharing Bike Card",
+    "source": "Bank Card",
+    "editTime": "2025-04-07"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "Entertainment",
+    "amount": 98.8,
+    "date": "2024-11-20",
+    "note": "Film Tickets",
+    "source": "Bank Card",
+    "editTime": "2025-04-07"
+  },
+  {
+    "type": "INCOME",
+    "category": "Lend",
+    "amount": 6005.68,
+    "date": "2024-11-19",
+    "note": "Loan repaid",
+    "source": "Bank Transfer",
+    "editTime": "2025-04-07"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "Other",
+    "amount": 4.5,
+    "date": "2024-11-19",
+    "note": "Laundry",
+    "source": "Bank Card",
+    "editTime": "2025-04-07"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "Food",
+    "amount": 68.99,
+    "date": "2024-11-18",
+    "note": "Food",
+    "source": "Bank Card",
+    "editTime": "2025-04-07"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "Food",
+    "amount": 6.84,
+    "date": "2024-11-17",
+    "note": "Food",
+    "source": "Bank Card",
+    "editTime": "2025-04-07"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "Food",
+    "amount": 3.74,
+    "date": "2024-11-17",
+    "note": "Drink",
+    "source": "Bank Card",
+    "editTime": "2025-04-07"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "Health",
+    "amount": 124.44,
+    "date": "2024-11-15",
+    "note": "Medicine",
+    "source": "Bank Card",
+    "editTime": "2025-04-07"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "Food",
+    "amount": 22.34,
+    "date": "2024-11-14",
+    "note": "Food",
+    "source": "Bank Card",
+    "editTime": "2025-04-07"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "Other",
+    "amount": 4.5,
+    "date": "2024-11-13",
+    "note": "Laundry",
+    "source": "Bank Card",
+    "editTime": "2025-04-07"
+  },
+  {
+    "type": "INCOME",
+    "category": "Other",
+    "amount": 2334.63,
+    "date": "2024-11-13",
+    "note": "Freelance",
+    "source": "Bank Transfer",
+    "editTime": "2025-04-07"
+  },
+  {
+    "type": "INCOME",
+    "category": "Other",
+    "amount": 141.91,
+    "date": "2024-11-13",
+    "note": "Snacks",
+    "source": "Credit Card",
+    "editTime": "2025-04-07"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "Transport",
+    "amount": 17.49,
+    "date": "2024-11-10",
+    "note": "Taxi",
+    "source": "Bank Card",
+    "editTime": "2025-04-07"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "Food",
+    "amount": 13.04,
+    "date": "2024-11-09",
+    "note": "Food",
+    "source": "Bank Card",
+    "editTime": "2025-04-07"
+  },
+  {
+    "type": "INCOME",
+    "category": "Salary",
+    "amount": 2709.38,
+    "date": "2024-11-09",
+    "note": "Bonus",
+    "source": "Cash",
+    "editTime": "2025-04-07"
+  },
+  {
+    "type": "INCOME",
+    "category": "Other",
+    "amount": 3496.98,
+    "date": "2024-11-09",
+    "note": "Gift",
+    "source": "Manual",
+    "editTime": "2025-04-06"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "Other",
+    "amount": 4.5,
+    "date": "2024-11-08",
+    "note": "Laundry",
+    "source": "Bank Card",
+    "editTime": "2025-04-05"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "Entertainment",
+    "amount": 489.41,
+    "date": "2024-11-07",
+    "note": "Dance show",
+    "source": "Bank Card",
+    "editTime": "2025-04-05"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "Entertainment",
+    "amount": 19.67,
+    "date": "2024-11-06",
+    "note": "Movie Ticket",
+    "source": "Bank Card",
+    "editTime": "2025-04-05"
+  },
+  {
+    "type": "INCOME",
+    "category": "Salary",
+    "amount": 6664.77,
+    "date": "2024-11-05",
+    "note": "Year-end bonus",
+    "source": "Manual",
+    "editTime": "2025-04-05"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "Food",
+    "amount": 10.0,
+    "date": "2024-11-04",
+    "note": "Food",
+    "source": "Bank Card",
+    "editTime": "2025-04-05"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "Beauty",
+    "amount": 86.72,
+    "date": "2024-11-03",
+    "note": "Cosmetics",
+    "source": "Bank Card",
+    "editTime": "2025-04-05"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "Other",
+    "amount": 12.1,
+    "date": "2024-11-03",
+    "note": "Daily goods",
+    "source": "Bank Card",
+    "editTime": "2025-04-05"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "Beauty",
+    "amount": 290.59,
+    "date": "2024-11-03",
+    "note": "Skincare",
+    "source": "Bank Card",
+    "editTime": "2025-04-05"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "Other",
+    "amount": 4.5,
+    "date": "2024-11-02",
+    "note": "Laundry",
+    "source": "Bank Card",
+    "editTime": "2025-04-05"
+  },
+  {
+    "type": "INCOME",
+    "category": "Transfer In",
+    "amount": 6197.23,
+    "date": "2024-11-02",
+    "note": "Travel refund",
+    "source": "Cash",
+    "editTime": "2025-04-05"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "Food",
+    "amount": 5.2,
+    "date": "2024-11-01",
+    "note": "Drink",
+    "source": "Bank Card",
+    "editTime": "2025-04-05"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "Food",
+    "amount": 25.44,
+    "date": "2024-10-31",
+    "note": "Food",
+    "source": "Bank Card",
+    "editTime": "2025-04-05"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "Food",
+    "amount": 13.14,
+    "date": "2024-10-28",
+    "note": "Food",
+    "source": "Bank Card",
+    "editTime": "2025-04-05"
+  },
+  {
+    "type": "INCOME",
+    "category": "Salary",
+    "amount": 7276.64,
+    "date": "2024-10-28",
+    "note": "Year-end bonus",
+    "source": "Cash",
+    "editTime": "2025-04-05"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "Shopping",
+    "amount": 294.0,
+    "date": "2024-10-27",
+    "note": "Casual pants",
+    "source": "Bank Card",
+    "editTime": "2025-04-05"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "Food",
+    "amount": 4.99,
+    "date": "2024-10-26",
+    "note": "Drink",
+    "source": "Bank Card",
+    "editTime": "2025-04-05"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "Food",
+    "amount": 8.46,
+    "date": "2024-10-25",
+    "note": "Food",
+    "source": "Bank Card",
+    "editTime": "2025-04-05"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "Other",
+    "amount": 4.5,
+    "date": "2024-10-25",
+    "note": "Laundry",
+    "source": "Bank Card",
+    "editTime": "2025-04-05"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "Transport",
+    "amount": 19.61,
+    "date": "2024-10-23",
+    "note": "Taxi",
+    "source": "Bank Card",
+    "editTime": "2025-04-05"
+  },
+  {
+    "type": "INCOME",
+    "category": "Other",
+    "amount": 6422.49,
+    "date": "2024-10-22",
+    "note": "Reimbursement for meals",
+    "source": "Cash",
+    "editTime": "2025-04-05"
+  },
+  {
+    "type": "INCOME",
+    "category": "Other",
+    "amount": 1961.75,
+    "date": "2024-10-22",
+    "note": "Refund",
+    "source": "Manual",
+    "editTime": "2025-04-05"
+  },
+  {
+    "type": "INCOME",
+    "category": "Salary",
+    "amount": 4402.46,
+    "date": "2024-10-21",
+    "note": "Bonus",
+    "source": "Cash",
+    "editTime": "2025-04-05"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "Beauty",
+    "amount": 164.88,
+    "date": "2024-10-20",
+    "note": "Skincare",
+    "source": "Credit Card",
+    "editTime": "2025-04-05"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "Food",
+    "amount": 3.94,
+    "date": "2024-10-20",
+    "note": "Food",
+    "source": "Bank Card",
+    "editTime": "2025-04-05"
+  },
+  {
+    "type": "INCOME",
+    "category": "Other",
+    "amount": 3867.13,
+    "date": "2024-10-19",
+    "note": "Freelance",
+    "source": "Manual",
+    "editTime": "2025-04-03"
+  },
+  {
+    "type": "INCOME",
+    "category": "Salary",
+    "amount": 2417.21,
+    "date": "2024-10-10",
+    "note": "Year-end bonus",
+    "source": "Cash",
+    "editTime": "2025-04-03"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "Entertainment",
+    "amount": 216.1,
+    "date": "2024-10-08",
+    "note": "Concert",
+    "source": "Credit Card",
+    "editTime": "2025-04-03"
+  },
+  {
+    "type": "EXPENSE",
+    "category": "Entertainment",
+    "amount": 70.81,
+    "date": "2024-10-02",
+    "note": "Concert",
+    "source": "Credit Card",
+    "editTime": "2025-04-03"
+  },
+  {
+    "type": "INCOME",
+    "category": "Salary",
+    "amount": 1070.49,
+    "date": "2024-10-01",
+    "note": "Monthly salary",
+    "source": "Cash",
+    "editTime": "2025-04-03"
+  }
+]
