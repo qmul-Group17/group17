@@ -1102,11 +1102,6 @@ public class MainFrame extends JFrame {
             allCategories.add(t.getCategory());
         }
 
-        UIManager.put("OptionPane.okButtonText", "OK");
-        UIManager.put("OptionPane.cancelButtonText", "Cancel");
-        UIManager.put("OptionPane.yesButtonText", "Yes");
-        UIManager.put("OptionPane.noButtonText", "No");
-
         JFrame chartFrame = new JFrame("Transaction Charts");
         chartFrame.setLayout(new BorderLayout());
         chartFrame.setSize(800, 650);  // Increase height to accommodate Notes section
@@ -1142,11 +1137,6 @@ public class MainFrame extends JFrame {
         summaryPanel.add(incomeLabel);
         summaryPanel.add(expenseLabel);
         summaryPanel.add(budgetLabel);
-
-        JLabel instruction = new JLabel("Double-click budget to edit");
-        instruction.setFont(new Font("Dialog", Font.ITALIC, 11));
-        instruction.setForeground(Color.GRAY);
-        summaryPanel.add(instruction);
 
         JPanel infoPanel = new JPanel(new BorderLayout());
         infoPanel.add(summaryPanel, BorderLayout.NORTH);
@@ -1327,25 +1317,13 @@ public class MainFrame extends JFrame {
         chartFrame.add(notesPanel, BorderLayout.SOUTH);
 
         // Transaction details panel moved to middle area bottom
-        // Create detail panel
         JPanel detailPanel = new JPanel(new BorderLayout());
-        detailPanel.setBackground(new Color(240, 230, 255)); // match Notes section
-
-// Create detail area and scroll
-        JTextArea detailArea = new JTextArea(5, 80); // trigger scroll after 3 lines
-        detailArea.setFont(new Font("Monospaced", Font.PLAIN, 12));
-        detailArea.setLineWrap(false); // disable auto wrap
-        detailArea.setWrapStyleWord(false);
+        JTextArea detailArea = new JTextArea();
+        detailArea.setPreferredSize(new Dimension(780, 100));
         detailArea.setEditable(false);
-        detailArea.setBackground(new Color(245, 240, 255)); // light purple background
-
-        JScrollPane scrollPane = new JScrollPane(detailArea);
-        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        scrollPane.getViewport().setBackground(new Color(240, 230, 255));
-
+        JScrollPane scrollPane = new JScrollPane(detailArea, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        scrollPane.setPreferredSize(new Dimension(780, 120));
         detailPanel.add(scrollPane, BorderLayout.CENTER);
-
 
         // Create middle main content panel, including charts and details
         JPanel mainContentPanel = new JPanel(new BorderLayout());
@@ -1359,15 +1337,7 @@ public class MainFrame extends JFrame {
         budgetLabel.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
                 if (e.getClickCount() == 2) {
-                    String input = (String) JOptionPane.showInputDialog(
-                            chartFrame,                                      // parent
-                            "Enter new budget amount (RMB):",                // message
-                            "Set Budget",                                    // title ✅ 你要显示的英文标题
-                            JOptionPane.PLAIN_MESSAGE,                       // message type
-                            null,                                            // icon
-                            null,                                            // selectionValues
-                            monthlyBudget[0]                                 // initial value
-                    );
+                    String input = JOptionPane.showInputDialog(chartFrame, "Enter new budget amount (RMB):", monthlyBudget[0]);
                     if (input != null) {
                         try {
                             double newBudget = Double.parseDouble(input);
@@ -1377,8 +1347,7 @@ public class MainFrame extends JFrame {
                                 updateCharts[0].run();
                             }
                         } catch (NumberFormatException ex) {
-                            JOptionPane.showMessageDialog(chartFrame, "Invalid number.", "Input Error", JOptionPane.INFORMATION_MESSAGE);
-
+                            JOptionPane.showMessageDialog(chartFrame, "Invalid number.");
                         }
                     }
                 }

@@ -20,11 +20,6 @@ public class LoginFrame extends JFrame {
     }
 
     private void initUI() {
-        UIManager.put("OptionPane.okButtonText", "OK");
-        UIManager.put("OptionPane.cancelButtonText", "Cancel");
-        UIManager.put("OptionPane.yesButtonText", "Yes");
-        UIManager.put("OptionPane.noButtonText", "No");
-
         setSize(400, 200);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -56,11 +51,11 @@ public class LoginFrame extends JFrame {
         String pw = new String(passwordField.getPassword());
         User u = userController.login(user, pw);
         if (u != null) {
-            JOptionPane.showMessageDialog(this, "Login success","Message", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Login success");
             new MainFrame(u).setVisible(true);
             this.dispose();
         } else {
-            JOptionPane.showMessageDialog(this, "Invalid username or password","Message", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Invalid username or password");
         }
     }
 
@@ -68,9 +63,9 @@ public class LoginFrame extends JFrame {
         String user = usernameField.getText();
         String pw = new String(passwordField.getPassword());
         if (userController.register(user, pw)) {
-            JOptionPane.showMessageDialog(this, "Registration success, please login","Message", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Registration success, please login");
         } else {
-            JOptionPane.showMessageDialog(this, "Username already exists","Message", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Username already exists");
         }
     }
 }
