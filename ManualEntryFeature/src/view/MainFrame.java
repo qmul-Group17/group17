@@ -37,83 +37,136 @@ import controller.AppConfig;
 import view.APISettingsDialog;
 
 
-
 public class MainFrame extends JFrame {
     private JTable table;
     private DefaultTableModel tableModel;
     private TransactionController controller;
-    private JLabel statusLabel; // 添加状态栏标签
+    private JLabel statusLabel; // Add status bar label
 
-    public MainFrame() {
-        super("Personal Finance Tracker");
+    public MainFrame() {// In MainFrame constructor
+super("Personal Finance Tracker");
 
-        controller = new TransactionController();
-        controller.loadTransactions(); // 启动时加载数据
+    controller = new TransactionController();
+controller.loadTransactions(); // Load data at startup
 
-        setLayout(new BorderLayout());
+    setLayout(new BorderLayout());
 
-        // 创建菜单栏
-        JMenuBar menuBar = createMenuBar();
-        setJMenuBar(menuBar);
+    // Create menu bar
+    JMenuBar menuBar = createMenuBar();
+    setJMenuBar(menuBar);
 
-        tableModel = new DefaultTableModel(new String[]{"Type", "Category", "Amount", "Date", "Note", "Source"}, 0) {
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                return false; // 使表格不可编辑
-            }
-        };
-        table = new JTable(tableModel);
+    tableModel = new DefaultTableModel(new String[]{"Type", "Category", "Amount", "Date", "Note", "Source"}, 0) {
+        @Override
+        public boolean isCellEditable(int row, int column) {
+            return false; // Make the table non-editable
+        }
+    };
+    table = new JTable(tableModel);
 
-        // 添加表格双击事件，用于编辑分类
-        table.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                if (e.getClickCount() == 2) { // 双击
-                    int row = table.getSelectedRow();
-                    int column = table.getSelectedColumn();
+// Add table double-click event handler
+table.addMouseListener(new MouseAdapter() {
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            // Get selected row and column
+            int row = table.getSelectedRow();
+            int column = table.getSelectedColumn();
 
-                    // 如果双击的是分类列
-                    if (column == 1 && row >= 0) {
-                        String currentType = (String) tableModel.getValueAt(row, 0);
-                        String currentCategory = (String) tableModel.getValueAt(row, 1);
+            // Validate row selection
+            if (row < 0) return;
 
-                        // 根据类型（收入/支出）显示不同的分类选项
-                        String[] categories;
-                        if ("INCOME".equals(currentType)) {
-                            categories = new String[]{"Transfer In", "Salary", "Investment", "Red Packet In", "Borrow", "Receive", "Other"};
-                        } else {
-                            categories = new String[]{
-                                    "Food", "Transport", "Shopping", "Health", "Travel", "Beauty", "Entertainment", "Transfer",
-                                    "Housing", "Social", "Education", "Communication", "Red Packet", "Investment",
-                                    "Lend", "Repayment", "Parenting", "Pet", "Other"
-                            };
-                        }
-
-                        // 显示分类选择对话框
-                        String newCategory = (String) JOptionPane.showInputDialog(
-                                MainFrame.this,
-                                "选择交易分类:",
-                                "编辑分类",
-                                JOptionPane.QUESTION_MESSAGE,
-                                null,
-                                categories,
-                                currentCategory
-                        );
-
-                        if (newCategory != null && !newCategory.equals(currentCategory)) {
-                            // 更新数据模型中的分类
-                            controller.updateCategory(row, newCategory);
-                            updateTable(); // 刷新表格
-                            statusLabel.setText("已将交易 #" + (row+1) + " 的分类更新为: " + newCategory);
-                        }
-                    }
+            // Handle double-click events
+            if (e.getClickCount() == 2) {
+                // Category column editing
+                if (column == 1) {
+                    handleCategoryEdit(row);
+                }
+                // Full record editing for other columns
+                else {
+                    handleFullRecordEdit(row);
                 }
             }
-        });
+        }
+
+        /**
+         * Handles category-specific editing
+         * @param row Selected row index
+         */
+        private void handleCategoryEdit(int row) {
+            // Get current values from table
+            String currentType = (String) tableModel.getValueAt(row, 0);
+            String currentCategory = (String) tableModel.getValueAt(row, 1);
+
+            // Determine available categories based on transaction type
+            String[] categories = getCategoriesForType(currentType);
+
+            // Show category selection dialog
+            String newCategory = (String) JOptionPane.showInputDialog(
+                    MainFrame.this,
+                    "Select transaction category:",
+                    "Edit Category",
+                    JOptionPane.QUESTION_MESSAGE,
+                    null,
+                    categories,
+                    currentCategory
+            );
+
+            // Update if category changed
+            if (newCategory != null && !newCategory.equals(currentCategory)) {
+                controller.updateCategory(row, newCategory);
+                updateTable();
+                statusLabel.setText("Transaction #" + (row+1) + " category updated to: " + newCategory);
+            }
+        }
+
+        /**
+         * Handles full record editing
+         * @param row Selected row index
+         */
+        private void handleFullRecordEdit(int row) {
+            // Get original transaction
+            Transaction original = controller.getAllTransactions().get(row);
+
+            // Create and show edit dialog
+            EditTransactionDialog dialog = new EditTransactionDialog(MainFrame.this, original);
+            dialog.setVisible(true);
+
+            // Process changes if submitted
+            if (dialog.isSubmitted()) {
+                Transaction modified = dialog.getModifiedTransaction();
+                controller.updateTransaction(row, modified);
+                updateTable();
+                statusLabel.setText("Updated transaction #" + (row+1));
+            }
+        }
+
+        /**
+         * Gets appropriate categories based on transaction type
+         * @param type Transaction type (INCOME/EXPENSE)
+         * @return Array of category strings
+         */
+        private String[] getCategoriesForType(String type) {
+            if ("INCOME".equals(type)) {
+                return new String[]{
+                        "Transfer In", "Salary", "Investment",
+                        "Red Packet In", "Borrow", "Receive", "Other"
+                };
+            } else {
+                return new String[]{
+                        "Food", "Transport", "Shopping", "Health",
+                        "Travel", "Beauty", "Entertainment", "Transfer",
+                        "Housing", "Social", "Education", "Communication",
+                        "Red Packet", "Investment", "Lend", "Repayment",
+                        "Parenting", "Pet", "Other"
+                };
+            }
+        }
+    });
+
+
 
         add(new JScrollPane(table), BorderLayout.CENTER);
 
-        // 创建工具栏
+        // Create toolbar
         JToolBar toolBar = createToolBar();
         add(toolBar, BorderLayout.NORTH);
 
@@ -123,11 +176,11 @@ public class MainFrame extends JFrame {
             dialog.setVisible(true);
             if (dialog.isSubmitted()) {
                 Transaction t = dialog.getTransaction();
-                // 使用分类器自动分类
+                // Use categorizer to automatically categorize
                 Transaction categorizedT = TransactionCategorizer.categorize(t);
                 controller.addTransaction(categorizedT);
                 updateTable();
-                statusLabel.setText("已添加新交易并自动分类为: " + categorizedT.getCategory());
+                statusLabel.setText("Added new transaction and auto-categorized as: " + categorizedT.getCategory());
             }
         });
 
@@ -135,23 +188,23 @@ public class MainFrame extends JFrame {
         exportBtn.addActionListener(e -> {
             TableModel model = table.getModel();
             try (FileWriter writer = new FileWriter("output.csv")) {
-                // 写入列名（标题）到CSV文件
+                // Write column names (title) to CSV file
                 for (int i = 0; i < model.getColumnCount(); i++) {
                     writer.append(model.getColumnName(i));
                     if (i < model.getColumnCount() - 1) {
-                        writer.append(','); // 列分隔符，除了最后一列外
+                        writer.append(','); // Column separator, except for last column
                     } else {
-                        writer.append('\n'); // 最后一列后换行
+                        writer.append('\n'); // Newline after last column
                     }
                 }
-                // 写入数据行到CSV文件
+                // Write data rows to CSV file
                 for (int i = 0; i < model.getRowCount(); i++) {
                     for (int j = 0; j < model.getColumnCount(); j++) {
-                        writer.append(String.valueOf(model.getValueAt(i, j))); // 将值转换为字符串并写入CSV文件
+                        writer.append(String.valueOf(model.getValueAt(i, j))); // Convert value to string and write to CSV
                         if (j < model.getColumnCount() - 1) {
-                            writer.append(','); // 列分隔符，除了最后一列外
+                            writer.append(','); // Column separator, except for last column
                         } else {
-                            writer.append('\n'); // 最后一列后换行，换行表示新的一行数据开始
+                            writer.append('\n'); // Newline after last column, indicating start of new data row
                         }
                     }
                 }
@@ -168,11 +221,11 @@ public class MainFrame extends JFrame {
             if (result == JFileChooser.APPROVE_OPTION) {
                 String filePath = fileChooser.getSelectedFile().getAbsolutePath();
                 List<Transaction> imported = CSVImporter.importFromCSV(filePath);
-                // 在导入前对所有交易进行自动分类
+                // Auto-categorize all transactions before importing
                 List<Transaction> categorizedImports = TransactionCategorizer.categorizeAll(imported);
                 controller.importTransactions(categorizedImports);
                 updateTable();
-                statusLabel.setText("已导入并自动分类 " + imported.size() + " 条交易记录");
+                statusLabel.setText("Imported and auto-categorized " + imported.size() + " transactions");
             }
         });
 
@@ -184,25 +237,25 @@ public class MainFrame extends JFrame {
         chartBtn.addActionListener(e -> showChart());
         buttonPanel.add(chartBtn);
 
-        // 添加AI分类按钮
-        JButton recategorizeBtn = new JButton("重新分类所有交易");
+        // Add AI categorization button
+        JButton recategorizeBtn = new JButton("Recategorize All Transactions");
         recategorizeBtn.addActionListener(e -> {
             controller.recategorizeAll();
             updateTable();
-            statusLabel.setText("已使用AI重新分类所有交易");
+            statusLabel.setText("All transactions recategorized using AI");
         });
         buttonPanel.add(recategorizeBtn);
 
         add(buttonPanel, BorderLayout.SOUTH);
 
-        // 添加状态栏
-        statusLabel = new JLabel("就绪 - 使用 " +
-                (TransactionCategorizer.isUsingAdvancedMode() ? "高级模式" : "关键词匹配") +
-                " 进行分类" + (AppConfig.isUseAPI() ? " (API已启用)" : ""));
-           statusLabel.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
+        // Add status bar
+        statusLabel = new JLabel("Ready - Using " +
+                (TransactionCategorizer.isUsingAdvancedMode() ? "Advanced Mode" : "Keyword Matching") +
+                " for categorization" + (AppConfig.isUseAPI() ? " (API Enabled)" : ""));
+        statusLabel.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
         add(statusLabel, BorderLayout.NORTH);
 
-        updateTable(); // 初始加载数据到表格
+        updateTable(); // Initial load of data to table
         setSize(900, 450);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -211,30 +264,30 @@ public class MainFrame extends JFrame {
     private JMenuBar createMenuBar() {
         JMenuBar menuBar = new JMenuBar();
 
-        // 文件菜单
-        JMenu fileMenu = new JMenu("文件");
-        JMenuItem importItem = new JMenuItem("导入CSV");
+        // File menu
+        JMenu fileMenu = new JMenu("File");
+        JMenuItem importItem = new JMenuItem("Import CSV");
         importItem.addActionListener(e -> {
             JFileChooser fileChooser = new JFileChooser();
             int result = fileChooser.showOpenDialog(this);
             if (result == JFileChooser.APPROVE_OPTION) {
                 String filePath = fileChooser.getSelectedFile().getAbsolutePath();
                 List<Transaction> imported = CSVImporter.importFromCSV(filePath);
-                // 在导入前对所有交易进行自动分类
+                // Auto-categorize all transactions before importing
                 List<Transaction> categorizedImports = TransactionCategorizer.categorizeAll(imported);
                 controller.importTransactions(categorizedImports);
                 updateTable();
-                statusLabel.setText("已导入并自动分类 " + imported.size() + " 条交易记录");
+                statusLabel.setText("Imported and auto-categorized " + imported.size() + " transactions");
             }
         });
 
-        JMenuItem saveItem = new JMenuItem("保存数据");
+        JMenuItem saveItem = new JMenuItem("Save Data");
         saveItem.addActionListener(e -> {
             controller.saveTransactions();
-            statusLabel.setText("数据已保存");
+            statusLabel.setText("Data saved");
         });
 
-        JMenuItem exitItem = new JMenuItem("退出");
+        JMenuItem exitItem = new JMenuItem("Exit");
         exitItem.addActionListener(e -> {
             controller.saveTransactions();
             System.exit(0);
@@ -245,41 +298,54 @@ public class MainFrame extends JFrame {
         fileMenu.addSeparator();
         fileMenu.add(exitItem);
 
-        // 编辑菜单
-        JMenu editMenu = new JMenu("编辑");
-        JMenuItem addItem = new JMenuItem("添加交易");
+        // Edit menu
+        JMenu editMenu = new JMenu("Edit");
+        JMenuItem addItem = new JMenuItem("Add Transaction");
         addItem.addActionListener(e -> {
             TransactionDialog dialog = new TransactionDialog(this);
             dialog.setVisible(true);
             if (dialog.isSubmitted()) {
                 Transaction t = dialog.getTransaction();
-                // 使用分类器自动分类
+                // Use categorizer to automatically categorize
                 Transaction categorizedT = TransactionCategorizer.categorize(t);
                 controller.addTransaction(categorizedT);
                 updateTable();
-                statusLabel.setText("已添加新交易并自动分类为: " + categorizedT.getCategory());
+                statusLabel.setText("Added new transaction and auto-categorized as: " + categorizedT.getCategory());
             }
         });
 
         editMenu.add(addItem);
 
-        JMenu aiMenu = new JMenu("AI功能");
-        JMenuItem toggleAIItem = new JMenuItem("切换分类模式");
+        JMenuItem deleteItem = new JMenuItem("Delete Transaction");
+        deleteItem.addActionListener(e -> {
+            int selectedRow = table.getSelectedRow();
+            if (selectedRow >= 0) {
+                controller.deleteTransaction(selectedRow);
+                updateTable();
+                statusLabel.setText("Deleted transaction #" + (selectedRow+1));
+            } else {
+                JOptionPane.showMessageDialog(this, "Please select a transaction to delete");
+            }
+        });
+        editMenu.add(deleteItem);
+
+        JMenu aiMenu = new JMenu("AI Features");
+        JMenuItem toggleAIItem = new JMenuItem("Toggle Categorization Mode");
         toggleAIItem.addActionListener(e -> {
             TransactionCategorizer.toggleMode();
-            boolean isAdvancedMode = TransactionCategorizer.isUsingAdvancedMode(); // 修改方法名
-            statusLabel.setText("当前分类模式: " + (isAdvancedMode ? "高级模式" : "关键词匹配"));
+            boolean isAdvancedMode = TransactionCategorizer.isUsingAdvancedMode(); // Modified method name
+            statusLabel.setText("Current categorization mode: " + (isAdvancedMode ? "Advanced Mode" : "Keyword Matching"));
         });
 
-        JMenuItem recategorizeItem = new JMenuItem("重新分类所有交易");
+        JMenuItem recategorizeItem = new JMenuItem("Recategorize All Transactions");
         recategorizeItem.addActionListener(e -> {
             controller.recategorizeAll();
             updateTable();
-            statusLabel.setText("已重新分类所有交易");
+            statusLabel.setText("All transactions recategorized");
         });
 
-// 添加API设置选项
-        JMenuItem apiSettingsItem = new JMenuItem("AI分类API设置");
+// Add API settings option
+        JMenuItem apiSettingsItem = new JMenuItem("AI Categorization API Settings");
         apiSettingsItem.addActionListener(e -> {
             APISettingsDialog dialog = new APISettingsDialog(this);
             dialog.setVisible(true);
@@ -287,25 +353,25 @@ public class MainFrame extends JFrame {
 
         aiMenu.add(toggleAIItem);
         aiMenu.add(recategorizeItem);
-        aiMenu.addSeparator(); // 分隔线
+        aiMenu.addSeparator(); // Separator
         aiMenu.add(apiSettingsItem);
 
 
-        // 图表菜单
-        JMenu chartMenu = new JMenu("图表");
-        JMenuItem viewChartItem = new JMenuItem("查看图表");
+        // Chart menu
+        JMenu chartMenu = new JMenu("Charts");
+        JMenuItem viewChartItem = new JMenuItem("View Charts");
         viewChartItem.addActionListener(e -> showChart());
         chartMenu.add(viewChartItem);
 
-        // 帮助菜单
-        JMenu helpMenu = new JMenu("帮助");
-        JMenuItem aboutItem = new JMenuItem("关于");
+        // Help menu
+        JMenu helpMenu = new JMenu("Help");
+        JMenuItem aboutItem = new JMenuItem("About");
         aboutItem.addActionListener(e -> {
             JOptionPane.showMessageDialog(this,
-                    "个人财务管理系统 v1.0\n" +
-                            "包含AI自动分类功能\n\n" +
-                            "提示：双击表格中的分类单元格可以手动修改分类",
-                    "关于",
+                    "Personal Finance Management System v1.0\n" +
+                            "Featuring AI auto-categorization\n\n" +
+                            "Tip: Double-click on a category cell to manually modify the category",
+                    "About",
                     JOptionPane.INFORMATION_MESSAGE);
         });
         helpMenu.add(aboutItem);
@@ -323,20 +389,20 @@ public class MainFrame extends JFrame {
         JToolBar toolBar = new JToolBar();
         toolBar.setFloatable(false);
 
-        JButton addButton = new JButton("添加");
+        JButton addButton = new JButton("Add");
         addButton.addActionListener(e -> {
             TransactionDialog dialog = new TransactionDialog(this);
             dialog.setVisible(true);
             if (dialog.isSubmitted()) {
                 Transaction t = dialog.getTransaction();
-                // 使用分类器自动分类
+                // Use categorizer to automatically categorize
                 Transaction categorizedT = TransactionCategorizer.categorize(t);
                 controller.addTransaction(categorizedT);
                 updateTable();
             }
         });
 
-        JButton importButton = new JButton("导入");
+        JButton importButton = new JButton("Import");
         importButton.addActionListener(e -> {
             JFileChooser fileChooser = new JFileChooser();
             int result = fileChooser.showOpenDialog(this);
@@ -349,40 +415,72 @@ public class MainFrame extends JFrame {
             }
         });
 
-        JButton chartButton = new JButton("图表");
+        JButton deleteButton = new JButton("Delete");
+        deleteButton.addActionListener(e -> {
+            int selectedRow = table.getSelectedRow();
+            if (selectedRow >= 0) {
+                controller.deleteTransaction(selectedRow);
+                updateTable();
+                statusLabel.setText("Deleted transaction #" + (selectedRow+1));
+            } else {
+                JOptionPane.showMessageDialog(this, "Please select a transaction to delete");
+            }
+        });
+        toolBar.add(deleteButton);
+
+        JButton editButton = new JButton("Edit");
+        editButton.addActionListener(e -> {
+            int selectedRow = table.getSelectedRow();
+            if (selectedRow >= 0) {
+                Transaction original = controller.getAllTransactions().get(selectedRow);
+                EditTransactionDialog dialog = new EditTransactionDialog(MainFrame.this, original);
+                dialog.setVisible(true);
+                if (dialog.isSubmitted()) {
+                    Transaction modified = dialog.getModifiedTransaction();
+                    controller.updateTransaction(selectedRow, modified);
+                    updateTable();
+                    statusLabel.setText("Updated transaction #" + (selectedRow+1));
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "Please select a transaction to edit");
+            }
+        });
+        toolBar.add(editButton);
+
+        JButton chartButton = new JButton("Charts");
         chartButton.addActionListener(e -> showChart());
 
-        JButton toggleModeButton = new JButton("切换AI模式");
+        JButton toggleModeButton = new JButton("Toggle AI Mode");
         toggleModeButton.addActionListener(e -> {
             TransactionCategorizer.toggleMode();
             boolean isAdvancedMode = TransactionCategorizer.isUsingAdvancedMode();
-            statusLabel.setText("当前分类模式: " +
-                    (isAdvancedMode ? "高级模式" : "关键词匹配") +
-                    (AppConfig.isUseAPI() ? " (API已启用)" : ""));
+            statusLabel.setText("Current categorization mode: " +
+                    (isAdvancedMode ? "Advanced Mode" : "Keyword Matching") +
+                    (AppConfig.isUseAPI() ? " (API Enabled)" : ""));
         });
-        // 添加交易按钮处理程序
+        // Add transaction button handler
         addButton.addActionListener(e -> {
             TransactionDialog dialog = new TransactionDialog(this);
             dialog.setVisible(true);
             if (dialog.isSubmitted()) {
                 Transaction t = dialog.getTransaction();
-                // 使用控制器的分类方法，而不是直接调用分类器
+                // Use controller's categorization method, not calling the categorizer directly
                 controller.addAndCategorizeTransaction(t);
                 updateTable();
-                statusLabel.setText("已添加新交易并自动分类为: " + t.getCategory());
+                statusLabel.setText("Added new transaction and auto-categorized as: " + t.getCategory());
             }
         });
 
-// 导入CSV按钮处理程序
+// Import CSV button handler
         importButton.addActionListener(e -> {
             JFileChooser fileChooser = new JFileChooser();
             int result = fileChooser.showOpenDialog(this);
             if (result == JFileChooser.APPROVE_OPTION) {
                 String filePath = fileChooser.getSelectedFile().getAbsolutePath();
-                // 使用控制器的导入方法，它会处理分类
+                // Use controller's import method, which will handle categorization
                 controller.importFromCSV(filePath);
                 updateTable();
-                statusLabel.setText("已导入并自动分类交易记录");
+                statusLabel.setText("Imported and auto-categorized transactions");
             }
         });
 
@@ -463,9 +561,9 @@ public class MainFrame extends JFrame {
                 lineDataset,
                 true, true, false
         );
-        lineChart.setBackgroundPaint(Color.WHITE); // 整个图表白底
-        lineChart.getPlot().setBackgroundPaint(Color.WHITE); // 折线区域白底
-        lineChart.getPlot().setOutlinePaint(null); // 去掉边框线（可选）
+        lineChart.setBackgroundPaint(Color.WHITE); // White background for entire chart
+        lineChart.getPlot().setBackgroundPaint(Color.WHITE); // White background for line area
+        lineChart.getPlot().setOutlinePaint(null); // Remove border line (optional)
         ChartPanel linePanel = new ChartPanel(lineChart);
 
         // ------- Create Combined Chart Window -------
