@@ -4,6 +4,7 @@ import controller.TransactionController;
 import controller.BudgetController;
 import controller.CategorizationController;
 import view.MainFrame;
+import view.LoginFrame;
 import model.Transaction;
 import model.Budget;
 import model.UserPreferences;
@@ -13,6 +14,10 @@ import util.AIUtils;
 public class Main {
 
     public static void main(String[] args) {
+
+         javax.swing.SwingUtilities.invokeLater(() -> {
+            new LoginFrame(); // Show login/register first
+        });
         // 初始化用户偏好设置
         UserPreferences userPreferences = new UserPreferences();
         
