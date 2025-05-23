@@ -1,6 +1,7 @@
 package controller;
 
 import model.Transaction;
+import model.User; // New import
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 
@@ -13,7 +14,18 @@ import java.util.List;
 
 public class TransactionController {
     private final List<Transaction> transactions = new ArrayList<>();
-    private final String DATA_FILE = "transactions.json";
+
+    private String DATA_FILE = "transactions.json"; // default value for backward compatibility
+    private User currentUser; // Store the logged-in user
+
+    // Overloaded constructor with user
+    public TransactionController(User user) {
+        this.currentUser = user;
+        this.DATA_FILE = "PersonalFinanceTracker/transactions_" + user.getUsername() + ".json";
+    }
+
+    // Default constructor kept for compatibility (not used in login-based version)
+    public TransactionController() {}
 
     // A custom TypeAdapter is used to handle LocalDate
     private static class LocalDateAdapter implements JsonSerializer<LocalDate>, JsonDeserializer<LocalDate> {
@@ -32,6 +44,7 @@ public class TransactionController {
 
     public void addTransaction(Transaction t) {
         transactions.add(t);
+        transactions.sort((o1,o2) -> o2.getDate().compareTo(o1.getDate()));
         saveTransactions(); // Auto-save
     }
 
@@ -94,7 +107,7 @@ public class TransactionController {
             // Record the user's remediation for machine learning
             TransactionCategorizer.recordUserCorrection(oldTransaction, newCategory);
 
-            // Create a new trading partner, update only the category
+            // Create a new transaction with updated category
             Transaction updatedTransaction = new Transaction(
                     oldTransaction.getType(),
                     newCategory,
@@ -175,6 +188,9 @@ public class TransactionController {
             Type listType = new TypeToken<ArrayList<Transaction>>() {}.getType();
             transactions.clear();
             transactions.addAll(gson.fromJson(reader, listType));
+            transactions.sort((o1,o2) -> {
+                return o2.getDate().compareTo(o1.getDate());
+            });
         } catch (IOException e) {
             e.printStackTrace();
         }

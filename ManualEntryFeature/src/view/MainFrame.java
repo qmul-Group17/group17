@@ -4,6 +4,7 @@ import controller.CSVImporter;
 import controller.TransactionController;
 import controller.TransactionCategorizer;
 import model.Transaction;
+import model.User; 
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -42,12 +43,14 @@ public class MainFrame extends JFrame {
     private DefaultTableModel tableModel;
     private TransactionController controller;
     private JLabel statusLabel; // Add status bar label
+    private User currentUser;
 
-    public MainFrame() {// In MainFrame constructor
-super("Personal Finance Tracker");
+    public MainFrame(User user) {// In MainFrame constructor
+      super("Personal Finance Tracker");
+      this.currentUser = user;
 
-    controller = new TransactionController();
-controller.loadTransactions(); // Load data at startup
+    controller = new TransactionController(currentUser);
+    controller.loadTransactions();// Load data at startup
 
     setLayout(new BorderLayout());
 
