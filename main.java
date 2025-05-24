@@ -18,9 +18,12 @@ import util.AIUtils;
 public class Main {
 
     public static void main(String[] args) {
-        javax.swing.SwingUtilities.invokeLater(() -> {
-            new LoginFrame(); // Show login/register first
-        });
+    AppConfig.init();
+    
+    javax.swing.SwingUtilities.invokeLater(() -> {
+        new LoginFrame(); // Show login/register first
+    });
+      
         // 初始化用户偏好设置
         UserPreferences userPreferences = new UserPreferences();
 
