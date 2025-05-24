@@ -9,32 +9,141 @@ import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 
 /**
- * 基于机器学习的交易分类器
- * 结合本地分类和API分类两种方式
+ * Machine learning-based transaction classifier
+ * Combine local classification and API classification
  */
 public class MLTransactionCategorizer {
 
-    // 存储用户交易的历史模式
+    // Stores the historical patterns of user transactions
     private static Map<String, Map<String, Integer>> descriptionPatterns = new HashMap<>();
     private static Map<String, Map<Double, Integer>> amountPatterns = new HashMap<>();
     private static Map<String, Map<DayOfWeek, Integer>> dayOfWeekPatterns = new HashMap<>();
     private static Map<String, Map<String, Integer>> sourcePatterns = new HashMap<>();
 
-    // 交易类别权重
+    // Transaction category weights
     private static Map<String, Integer> categoryFrequency = new HashMap<>();
 
-    // 模型文件
+    // Model files
     private static final String MODEL_FILE = "ml_model.dat";
 
-    // 初始化模型
+    // Initialize the model
     static {
         loadModel();
     }
 
+    private static final Map<String, String> chineseToEnglishCategory = new HashMap<>();
+    private static final Map<String, String> englishToChineseCategory = new HashMap<>();
 
+    static {
+        // Expense category mapping
+        chineseToEnglishCategory.put("餐饮", "Food");
+        chineseToEnglishCategory.put("交通", "Transport");
+        chineseToEnglishCategory.put("购物", "Shopping");
+        chineseToEnglishCategory.put("健康", "Health");
+        chineseToEnglishCategory.put("旅游", "Travel");
+        chineseToEnglishCategory.put("美妆", "Beauty");
+        chineseToEnglishCategory.put("娱乐", "Entertainment");
+        chineseToEnglishCategory.put("转账", "Transfer");
+        chineseToEnglishCategory.put("住房", "Housing");
+        chineseToEnglishCategory.put("人情社交", "Social");
+        chineseToEnglishCategory.put("教育", "Education");
+        chineseToEnglishCategory.put("通讯", "Communication");
+        chineseToEnglishCategory.put("红包", "RedPacket");
+        chineseToEnglishCategory.put("投资", "Investment");
+        chineseToEnglishCategory.put("借出", "Lending");
+        chineseToEnglishCategory.put("还款", "Repayment");
+        chineseToEnglishCategory.put("亲子", "Parenting");
+        chineseToEnglishCategory.put("宠物", "Pet");
+        chineseToEnglishCategory.put("其他", "Other");
+
+        // Income Category Mapping
+        chineseToEnglishCategory.put("收转账", "TransferIn");
+        chineseToEnglishCategory.put("薪资", "Salary");
+        chineseToEnglishCategory.put("理财", "Investment");
+        chineseToEnglishCategory.put("收红包", "RedPacket");
+        chineseToEnglishCategory.put("借入", "Borrowing");
+        chineseToEnglishCategory.put("收款", "Receipt");
+        chineseToEnglishCategory.put("其他收入", "Other");
+
+        // Create a reverse map at the same time
+        for (Map.Entry<String, String> entry : chineseToEnglishCategory.entrySet()) {
+            englishToChineseCategory.put(entry.getValue(), entry.getKey());
+        }
+    }
 
     /**
-     * 加载模型数据
+     * Check if a transaction is a Spring Festival red packet based on date and amount
+     * 检查是否为春节红包：1月28日到2月16日，且金额能整除100的转账收入
+     */
+    private static boolean isSpringFestivalRedPacket(Transaction transaction) {
+        // 只检查收入类型的交易
+        if (transaction.getType() != Transaction.Type.INCOME) {
+            return false;
+        }
+
+        // 检查日期范围：1月28日到2月16日
+        LocalDate date = transaction.getDate();
+        if (date == null) {
+            return false;
+        }
+
+        // 获取月份和日期
+        int month = date.getMonthValue();
+        int day = date.getDayOfMonth();
+
+        boolean inDateRange = false;
+        if (month == 1 && day >= 28) {
+            inDateRange = true; // 1月28日及以后
+        } else if (month == 2 && day <= 16) {
+            inDateRange = true; // 2月16日及以前
+        }
+
+        if (!inDateRange) {
+            return false;
+        }
+
+        // 检查金额是否能整除100
+        double amount = transaction.getAmount();
+        if (amount <= 0 || amount % 100 != 0) {
+            return false;
+        }
+
+        // 检查是否为转账收入（通过关键词或来源判断）
+        String note = transaction.getNote() != null ? transaction.getNote().toLowerCase() : "";
+        String source = transaction.getSource() != null ? transaction.getSource().toLowerCase() : "";
+        String textToCheck = note + " " + source;
+
+        // 转账相关关键词
+        List<String> transferKeywords = Arrays.asList(
+                "转账", "转入", "收到转账", "transfer", "received", "收款", "微信", "支付宝",
+                "wechat", "alipay", "银行转账", "bank transfer"
+        );
+
+        for (String keyword : transferKeywords) {
+            if (textToCheck.contains(keyword.toLowerCase())) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Convert the category to English (if Chinese)
+     */
+    private static String toCategoryEnglish(String category) {
+        return chineseToEnglishCategory.getOrDefault(category, category);
+    }
+
+    /**
+     * Convert categories to Chinese (if English)
+     */
+    private static String toCategoryChinese(String category) {
+        return englishToChineseCategory.getOrDefault(category, category);
+    }
+
+    /**
+     * Load the model data
      */
     @SuppressWarnings("unchecked")
     private static void loadModel() {
@@ -47,14 +156,14 @@ public class MLTransactionCategorizer {
                 sourcePatterns = (Map<String, Map<String, Integer>>) ois.readObject();
                 categoryFrequency = (Map<String, Integer>) ois.readObject();
 
-                System.out.println("已加载机器学习模型数据");
-                System.out.println("交易描述模式: " + descriptionPatterns.size());
-                System.out.println("金额模式: " + amountPatterns.size());
-                System.out.println("星期几模式: " + dayOfWeekPatterns.size());
-                System.out.println("来源模式: " + sourcePatterns.size());
-                System.out.println("类别频率: " + categoryFrequency.size());
+                System.out.println("Machine learning model data is loaded");
+                System.out.println("Transaction Description Mode: " + descriptionPatterns.size());
+                System.out.println("Amount Pattern: " + amountPatterns.size());
+                System.out.println("Day of the week mode: " + dayOfWeekPatterns.size());
+                System.out.println("Source Mode: " + sourcePatterns.size());
+                System.out.println("Category Frequency: " + categoryFrequency.size());
             } catch (Exception e) {
-                System.err.println("加载机器学习模型失败: " + e.getMessage());
+                System.err.println("Failed to load machine learning model: " + e.getMessage());
                 initializeEmptyModel();
             }
         } else {
@@ -63,7 +172,7 @@ public class MLTransactionCategorizer {
     }
 
     /**
-     * 初始化空模型
+     * Initialize the empty model
      */
     private static void initializeEmptyModel() {
         descriptionPatterns = new HashMap<>();
@@ -71,11 +180,11 @@ public class MLTransactionCategorizer {
         dayOfWeekPatterns = new HashMap<>();
         sourcePatterns = new HashMap<>();
         categoryFrequency = new HashMap<>();
-        System.out.println("创建了新的机器学习模型");
+        System.out.println("A new machine learning model was created");
     }
 
     /**
-     * 保存模型数据
+     * Save the model data
      */
     public static void saveModel() {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(MODEL_FILE))) {
@@ -84,15 +193,15 @@ public class MLTransactionCategorizer {
             oos.writeObject(dayOfWeekPatterns);
             oos.writeObject(sourcePatterns);
             oos.writeObject(categoryFrequency);
-            System.out.println("已保存机器学习模型数据");
+            System.out.println("Machine learning model data has been saved");
         } catch (Exception e) {
-            System.err.println("保存机器学习模型失败: " + e.getMessage());
+            System.err.println("Saving machine learning model failed: " + e.getMessage());
         }
     }
 
     /**
-     * 学习交易模式
-     * @param transaction 已分类的交易
+     * Learn trading patterns
+     * @param transaction Categorized transactions
      */
     public static void learnFromTransaction(Transaction transaction) {
         String category = transaction.getCategory();
@@ -101,20 +210,20 @@ public class MLTransactionCategorizer {
         LocalDate date = transaction.getDate();
         String source = transaction.getSource().toLowerCase();
 
-        // 更新类别频率
+        // Update category frequency
         categoryFrequency.put(category, categoryFrequency.getOrDefault(category, 0) + 1);
 
-        // 更新描述模式
+        // Updated description mode
         Map<String, Integer> descriptionMap = descriptionPatterns.getOrDefault(description, new HashMap<>());
         descriptionMap.put(category, descriptionMap.getOrDefault(category, 0) + 1);
         descriptionPatterns.put(description, descriptionMap);
 
-        // 更新金额模式
+        // Update the amount model
         Map<Double, Integer> amountMap = amountPatterns.getOrDefault(category, new HashMap<>());
         amountMap.put(amount, amountMap.getOrDefault(amount, 0) + 1);
         amountPatterns.put(category, amountMap);
 
-        // 更新星期几模式
+        // Updated Day of the Week mode
         if (date != null) {
             DayOfWeek dayOfWeek = date.getDayOfWeek();
             Map<DayOfWeek, Integer> dayMap = dayOfWeekPatterns.getOrDefault(category, new HashMap<>());
@@ -122,62 +231,67 @@ public class MLTransactionCategorizer {
             dayOfWeekPatterns.put(category, dayMap);
         }
 
-        // 更新来源模式
+        // Update the source mode
         Map<String, Integer> sourceMap = sourcePatterns.getOrDefault(category, new HashMap<>());
         sourceMap.put(source, sourceMap.getOrDefault(source, 0) + 1);
         sourcePatterns.put(category, sourceMap);
 
-        // 保存更新后的模型
+        // Save the updated model
         saveModel();
     }
 
     /**
-     * 对交易进行智能分类
-     * @param transaction 需要分类的交易
-     * @return 预测的类别
+     * Intelligently classify transactions
+     * @param transaction Transactions that need to be categorized
+     * @return The category of the prediction
      */
     public static String predictCategory(Transaction transaction) {
-        // 首先尝试调用API进行分类
+        // First check if it's a Spring Festival red packet
+        if (isSpringFestivalRedPacket(transaction)) {
+            return "Red Packet";
+        }
+
+        // Then, try to call the API to classify it
         String apiCategory = categorizeViaAPI(transaction);
         if (apiCategory != null) {
             return apiCategory;
         }
 
-        // 如果API调用失败，回退到本地模型
-        System.out.println("API分类失败，使用本地模型进行分类");
+        // If the API call fails, roll back to the local model
+        System.out.println("API classification fails, and the local model is used for classification");
 
-        // 如果模型为空，返回默认分类
+        // If the model is empty, the default classification is returned
         if (categoryFrequency.isEmpty()) {
-            return transaction.getType() == Transaction.Type.EXPENSE ? "其他" : "其他收入";
+            return transaction.getType() == Transaction.Type.EXPENSE ? "Other" : "Other";
         }
 
-        String description = transaction.getNote().toLowerCase();
+        String description = transaction.getNote() != null ? transaction.getNote().toLowerCase() : "";
         Double amount = transaction.getAmount();
         DayOfWeek dayOfWeek = transaction.getDate() != null ? transaction.getDate().getDayOfWeek() : null;
-        String source = transaction.getSource().toLowerCase();
+        String source = transaction.getSource() != null ? transaction.getSource().toLowerCase() : "";
 
         Map<String, Double> scores = new HashMap<>();
 
-        // 初始化所有类别的分数为它们的基础频率
+        // Initialize the scores for all categories as their base frequency
         for (Map.Entry<String, Integer> entry : categoryFrequency.entrySet()) {
             String category = entry.getKey();
             int frequency = entry.getValue();
-            // 基础得分为该类别在所有交易中的比例
+            // The base score is the proportion of the category among all transactions
             double baseScore = (double) frequency / categoryFrequency.values().stream().mapToInt(Integer::intValue).sum();
             scores.put(category, baseScore);
         }
 
-        // 增加描述匹配的分数
+        // Increase the score for description matching
         if (descriptionPatterns.containsKey(description)) {
             Map<String, Integer> categoryMatches = descriptionPatterns.get(description);
             for (Map.Entry<String, Integer> entry : categoryMatches.entrySet()) {
                 String category = entry.getKey();
                 int count = entry.getValue();
-                // 描述完全匹配是一个很强的信号
+                // Describing an exact match is a strong signal
                 scores.put(category, scores.getOrDefault(category, 0.0) + count * 3.0);
             }
         } else {
-            // 关键词部分匹配
+            // Keyword partial match
             for (Map.Entry<String, Map<String, Integer>> entry : descriptionPatterns.entrySet()) {
                 String knownDesc = entry.getKey();
                 if (description.contains(knownDesc) || knownDesc.contains(description)) {
@@ -185,30 +299,30 @@ public class MLTransactionCategorizer {
                     for (Map.Entry<String, Integer> catEntry : categoryMatches.entrySet()) {
                         String category = catEntry.getKey();
                         int count = catEntry.getValue();
-                        // 部分匹配给较低的分数
+                        // A partial match is given to a lower score
                         scores.put(category, scores.getOrDefault(category, 0.0) + count * 0.5);
                     }
                 }
             }
         }
 
-        // 增加金额相似性的分数
+        // Increase the score for the similarity of the amounts
         for (Map.Entry<String, Map<Double, Integer>> entry : amountPatterns.entrySet()) {
             String category = entry.getKey();
             Map<Double, Integer> amountMap = entry.getValue();
 
-            // 检查相似金额的模式
+            // Check patterns for similar amounts
             for (Map.Entry<Double, Integer> amountEntry : amountMap.entrySet()) {
                 double knownAmount = amountEntry.getKey();
                 int count = amountEntry.getValue();
 
-                // 计算金额的相似度（金额越接近，分数越高）
+                // Calculate the similarity of the amounts (the closer the amounts, the higher the score)
                 double similarity = 1.0 / (1.0 + Math.abs(amount - knownAmount) / knownAmount);
                 scores.put(category, scores.getOrDefault(category, 0.0) + similarity * count * 0.5);
             }
         }
 
-        // 增加星期几模式的分数
+        // Increase the score for the Day of the Week pattern
         if (dayOfWeek != null) {
             for (Map.Entry<String, Map<DayOfWeek, Integer>> entry : dayOfWeekPatterns.entrySet()) {
                 String category = entry.getKey();
@@ -221,7 +335,7 @@ public class MLTransactionCategorizer {
             }
         }
 
-        // 增加来源模式的分数
+        // Increase the score of the source pattern
         for (Map.Entry<String, Map<String, Integer>> entry : sourcePatterns.entrySet()) {
             String category = entry.getKey();
             Map<String, Integer> sourceMap = entry.getValue();
@@ -232,7 +346,7 @@ public class MLTransactionCategorizer {
             }
         }
 
-        // 找出得分最高的类别
+        // Find out which category has the highest score
         String bestCategory = null;
         double bestScore = 0;
 
@@ -243,22 +357,22 @@ public class MLTransactionCategorizer {
             }
         }
 
-        // 如果没有找到合适的类别，返回默认类别
+        // If no suitable category is found, return to the default category
         if (bestCategory == null) {
-            return transaction.getType() == Transaction.Type.EXPENSE ? "其他" : "其他收入";
+            return transaction.getType() == Transaction.Type.EXPENSE ? "Other" : "Other";
         }
 
         return bestCategory;
     }
 
     /**
-     * 通过DeepSeek API对交易进行分类
-     * @param transaction 需要分类的交易
-     * @return 分类结果，如果API调用失败则返回null
+     * Categorize transactions through the DeepSeek API
+     * @param transaction Transactions that need to be categorized
+     * @return Classify the results and return null if the API call fails
      */
     private static String categorizeViaAPI(Transaction transaction) {
         try {
-            // 检查API配置
+            // Check the API configuration
             String apiUrl = AppConfig.getApiUrl();
             String apiKey = AppConfig.getApiKey();
 
@@ -266,7 +380,7 @@ public class MLTransactionCategorizer {
                 return null;
             }
 
-            // 创建交易描述
+            // Create a transaction description
             String description = transaction.getNote();
             if (description == null || description.isEmpty()) {
                 description = transaction.getSource();
@@ -276,22 +390,22 @@ public class MLTransactionCategorizer {
             String date = transaction.getDate() != null ? transaction.getDate().toString() : "";
             String type = transaction.getType().toString();
 
-            // 创建API请求
+            // Create an API request
             StringBuilder prompt = new StringBuilder();
-            prompt.append("分析以下交易信息，并将其分类到最合适的类别中:\n\n");
-            prompt.append("交易描述: ").append(description).append("\n");
-            prompt.append("金额: ").append(amount).append("\n");
-            prompt.append("日期: ").append(date).append("\n");
-            prompt.append("类型: ").append(type).append("\n\n");
+            prompt.append("Analyze the following transaction information and classify it into the most appropriate category:\n\n");
+            prompt.append("Transaction Description: ").append(description).append("\n");
+            prompt.append("Amount: ").append(amount).append("\n");
+            prompt.append("Date: ").append(date).append("\n");
+            prompt.append("Type: ").append(type).append("\n\n");
 
             if (transaction.getType() == Transaction.Type.EXPENSE) {
-                prompt.append("Please select the most appropriate expense category from the options below and return the English category name: Food, Transport, Shopping, Health, Travel, Beauty, Entertainment, Transfer, Housing, Social, Education, Communication, RedPacket, Investment, Lending, Repayment, Parenting, Pet, Other");
+                prompt.append("Please select the most appropriate expense category from the following and return the English category name: Food, Transport, Shopping, Health, Travel, Beauty, Entertainment, Transfer, Housing, Social, Education, Communication, RedPacket, Investment, Lending, Repayment, Parenting, Pet, Other");
             } else {
-                prompt.append("Please select the most appropriate income category from the options below and return the English category name: TransferIn, Salary, Investment, RedPacketIn, Borrowing, Receipt, Other");
+                prompt.append("Please select the most appropriate income category from the following and return the English category name: TransferIn, Salary, Investment, RedPacket, Borrowing, Receipt, Other");
             }
-            prompt.append("\n\nReturn only the category name without any additional text.”);
+            prompt.append("\n\nJust reply with the category name and nothing else.");
 
-            // 构建请求体
+            // Build the request body
             String requestBody = "{"
                     + "\"model\": \"deepseek-chat\","
                     + "\"messages\": ["
@@ -301,7 +415,7 @@ public class MLTransactionCategorizer {
                     + "\"max_tokens\": 10"
                     + "}";
 
-            // 发送API请求
+            // Send an API request
             java.net.URL url = new java.net.URL(apiUrl);
             java.net.HttpURLConnection conn = (java.net.HttpURLConnection) url.openConnection();
             conn.setRequestMethod("POST");
@@ -314,7 +428,7 @@ public class MLTransactionCategorizer {
                 os.write(input, 0, input.length);
             }
 
-            // 读取响应
+            // Read the response
             int responseCode = conn.getResponseCode();
             if (responseCode == 200) {
                 try (java.io.BufferedReader br = new java.io.BufferedReader(
@@ -325,15 +439,15 @@ public class MLTransactionCategorizer {
                         response.append(responseLine.trim());
                     }
 
-                    // 解析DeepSeek API响应
+                    // Parse the DeepSeek API response
                     String apiResponse = response.toString();
                     String category = parseDeepSeekResponse(apiResponse);
 
-                    System.out.println("API分类结果: " + category);
+                    System.out.println("API Classification Results: " + category);
                     return category;
                 }
             } else {
-                System.err.println("API调用失败，HTTP错误码: " + responseCode);
+                System.err.println("The API call fails and the HTTP error code is as follows: " + responseCode);
                 try (java.io.BufferedReader br = new java.io.BufferedReader(
                         new java.io.InputStreamReader(conn.getErrorStream(), "utf-8"))) {
                     StringBuilder response = new StringBuilder();
@@ -341,26 +455,26 @@ public class MLTransactionCategorizer {
                     while ((responseLine = br.readLine()) != null) {
                         response.append(responseLine.trim());
                     }
-                    System.err.println("错误响应: " + response.toString());
+                    System.err.println("Error Response: " + response.toString());
                 }
                 return null;
             }
         } catch (Exception e) {
-            System.err.println("API分类过程中发生异常: " + e.getMessage());
+            System.err.println("An exception occurred during API classification: " + e.getMessage());
             e.printStackTrace();
             return null;
         }
     }
 
     /**
-     * 解析DeepSeek API响应
+     * Parse the DeepSeek API response
      */
     private static String parseDeepSeekResponse(String apiResponse) {
         try {
-            // 查找"content"字段
+            // Look for the "content" field
             int contentStart = apiResponse.indexOf("\"content\":");
             if (contentStart == -1) {
-                throw new RuntimeException("API响应中未找到content字段");
+                throw new RuntimeException("The content field was not found in the API response");
             }
 
             contentStart = apiResponse.indexOf("\"", contentStart + 10) + 1;
@@ -370,43 +484,7 @@ public class MLTransactionCategorizer {
 
             // 清理响应，只保留类别名称
             content = content.trim();
-
-            Map<String, String> zhToEnMap = new HashMap<String, String>() {{
-                // 支出分类映射
-                put("餐饮", "Food");          put("饮食", "Food");
-                put("购物", "Shopping");      put("消费", "Shopping");
-                put("交通", "Transport");     put("出行", "Transport");
-                put("健康", "Health");        put("医疗", "Health");
-                put("旅行", "Travel");        put("旅游", "Travel");
-                put("娱乐", "Entertainment"); put("游戏", "Entertainment");
-                put("住房", "Housing");       put("房租", "Housing");
-                put("社交", "Social");        put("聚会", "Social");
-                put("教育", "Education");     put("学习", "Education");
-                put("通讯", "Communication"); put("电话", "Communication");
-                put("投资", "Investment");    put("理财", "Investment");
-                put("还款", "Repayment");     put("贷款", "Repayment");
-                put("育儿", "Parenting");     put("儿童", "Parenting");
-                put("宠物", "Pet");           put("养宠", "Pet");
-
-                // 收入分类映射
-                put("转账", "TransferIn");    put("转入", "TransferIn");
-                put("工资", "Salary");        put("薪水", "Salary");
-                put("红包", "RedPacketIn");   put("礼金", "RedPacketIn");
-                put("借款", "Borrowing");    put("贷款", "Borrowing");
-                put("收款", "Receipt");      put("到账", "Receipt");
-
-                // 通用分类
-                put("其他", "Other");        put("其它", "Other");
-            }};
-
-            // 优先处理中文映射（不区分大小写）
-            String lowerContent = content.toLowerCase();
-            for (Map.Entry<String, String> entry : zhToEnMap.entrySet()) {
-                if (lowerContent.contains(entry.getKey().toLowerCase())) {
-                    return entry.getValue();
-                }
-            }
-
+            System.out.println("Original API response content: " + content);
 
             List<String> validExpenseCategories = Arrays.asList(
                     "Food", "Transport", "Shopping", "Health", "Travel", "Beauty", "Entertainment", "Transfer",
@@ -415,37 +493,57 @@ public class MLTransactionCategorizer {
             );
 
             List<String> validIncomeCategories = Arrays.asList(
-                    "TransferIn", "Salary", "Investment", "RedPacketIn", "Borrowing", "Receipt", "Other"
+                    "TransferIn", "Salary", "Investment", "RedPacket", "Borrowing", "Receipt", "Other"
             );
 
-            // 如果获取到的类别名有效，则返回
+            // First, try to match the English category directly
             if (validExpenseCategories.contains(content) || validIncomeCategories.contains(content)) {
+                // If it is directly in English, there is no need to convert
+                System.out.println("The API returns a valid English category");
                 return content;
             }
 
-            // 否则尝试模糊匹配
+            // If it is not a valid English category, try converting Chinese to English
+            String englishCategory = toCategoryEnglish(content);
+
+            // Check if it is different from the original after conversion (description of the conversion)
+            if (!englishCategory.equals(content)) {
+                System.out.println("The Chinese category'" + content + "'has been converted to the English category'" + englishCategory + "'");
+            }
+
+            // Check whether the converted English category is valid
+            if (validExpenseCategories.contains(englishCategory) || validIncomeCategories.contains(englishCategory)) {
+                return englishCategory;
+            }
+
+            // If it's still not a valid category after conversion, try fuzzy matching
+            System.out.println("Try fuzzy matching categories: " + englishCategory);
             for (String category : validExpenseCategories) {
-                if (content.contains(category)) {
+                if (englishCategory.contains(category) || category.contains(englishCategory)) {
+                    System.out.println("Fuzzy Match to Expense Category: " + category);
                     return category;
                 }
             }
 
             for (String category : validIncomeCategories) {
-                if (content.contains(category)) {
+                if (englishCategory.contains(category) || category.contains(englishCategory)) {
+                    System.out.println("Fuzzy Match to Income Category: " + category);
                     return category;
                 }
             }
 
-            // 如果无法匹配，返回默认值
-            return "其他";
+            // If it can't be matched, the default value is returned
+            System.out.println("Unable to match a valid category, returns the default value: Other");
+            return "Other";
         } catch (Exception e) {
-            System.err.println("解析API响应失败: " + e.getMessage());
-            return "其他";
+            System.err.println("Parsing API response failed: " + e.getMessage());
+            e.printStackTrace();
+            return "Other";
         }
     }
 
     /**
-     * 转义JSON字符串
+     * Escape JSON strings
      */
     private static String escapeJson(String input) {
         if (input == null) return "";

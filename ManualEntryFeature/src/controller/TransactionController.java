@@ -38,17 +38,34 @@ public class TransactionController {
 
         @Override
         public LocalDate deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-            return LocalDate.parse(json.getAsString(), formatter);
+            try {
+                if (json.isJsonObject()) {
+                    JsonObject dateObj = json.getAsJsonObject();
+                    int year = dateObj.get("year").getAsInt();
+                    int month = dateObj.get("month").getAsInt();
+                    int day = dateObj.get("day").getAsInt();
+                    return LocalDate.of(year, month, day);
+                } else {
+                    return LocalDate.parse(json.getAsString(), formatter);
+                }
+            } catch (Exception e) {
+                System.err.println("Failed to parse date: " + json + ", using current date.");
+                return LocalDate.now();
+            }
         }
     }
 
     public void addTransaction(Transaction t) {
+        t.setEditTime(LocalDate.now());
         transactions.add(t);
         transactions.sort((o1,o2) -> o2.getDate().compareTo(o1.getDate()));
         saveTransactions(); // Auto-save
     }
 
     public void importTransactions(List<Transaction> importedTransactions) {
+        for (Transaction t : importedTransactions) {
+            t.setEditTime(LocalDate.now());//set edit time
+        }
         transactions.addAll(importedTransactions);
         saveTransactions(); // Auto-save
     }
@@ -76,6 +93,7 @@ public class TransactionController {
     public void addAndCategorizeTransaction(Transaction transaction) {
         // Use classifiers to automatically classify
         Transaction categorizedTransaction = TransactionCategorizer.categorize(transaction);
+        categorizedTransaction.setEditTime(LocalDate.now());
         transactions.add(categorizedTransaction);
         saveTransactions();
         notifyListeners();
@@ -93,6 +111,7 @@ public class TransactionController {
     // Update Transaction
     public void updateTransaction(int index, Transaction newTransaction) {
         if (index >= 0 && index < transactions.size()) {
+            newTransaction.setEditTime(LocalDate.now());
             transactions.set(index, newTransaction);
             saveTransactions();
             notifyListeners();
@@ -117,6 +136,7 @@ public class TransactionController {
                     oldTransaction.getSource()
             );
 
+            updatedTransaction.setEditTime(LocalDate.now());
             transactions.set(index, updatedTransaction);
             saveTransactions();
             notifyListeners();
@@ -126,6 +146,9 @@ public class TransactionController {
     // Reclassify all transactions
     public void recategorizeAll() {
         List<Transaction> recategorized = TransactionCategorizer.categorizeAll(new ArrayList<>(transactions));
+        for (Transaction t : recategorized) {
+            t.setEditTime(LocalDate.now());
+        }
         transactions.clear();
         transactions.addAll(recategorized);
         saveTransactions();
@@ -161,6 +184,10 @@ public class TransactionController {
 
         // Automatically classify imported transactions
         List<Transaction> categorizedTransactions = TransactionCategorizer.categorizeAll(importedTransactions);
+
+        for (Transaction t : categorizedTransactions) {
+            t.setEditTime(LocalDate.now());
+        }
 
         // Add to the list of existing transactions
         transactions.addAll(categorizedTransactions);
