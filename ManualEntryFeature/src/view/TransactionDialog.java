@@ -59,8 +59,11 @@ public class TransactionDialog extends JDialog {
         // Add "Category" label and dropdown for selecting category
         add(new JLabel("Category:"), gbc);
         gbc.gridx = 1;
-        categoryBox = new JComboBox<>(new String[]{"Food", "Salary", "Transport", "Lend", "Borrow", "Other"});
+        categoryBox = new JComboBox<>(expenseCategories);
         add(categoryBox, gbc);
+
+        typeBox.addActionListener(e -> updateCategoryOptions());
+;
 
         gbc.gridx = 0; gbc.gridy++;
         // Add "Enter Amount" label and input field for entering the transaction amount
@@ -131,6 +134,24 @@ public class TransactionDialog extends JDialog {
         setLocationRelativeTo(owner); // Center the dialog on the screen
     }
 
+    private void updateCategoryOptions() {
+        Transaction.Type selectedType = (Transaction.Type) typeBox.getSelectedItem();
+        categoryBox.removeAllItems();
+
+        if (selectedType == Transaction.Type.INCOME) {
+            for (String category : incomeCategories) {
+                categoryBox.addItem(category);
+            }
+        } else {
+            for (String category : expenseCategories) {
+                categoryBox.addItem(category);
+            }
+        }
+
+        if (categoryBox.getItemCount() > 0) {
+            categoryBox.setSelectedIndex(0);
+        }
+    }
     // Update the converted amount based on the selected currency and entered amount
     private void updateConvertedAmount() {
         try {
