@@ -1,6 +1,7 @@
 package controller;
 
 import model.Transaction;
+import model.User; // New import
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 
@@ -13,9 +14,20 @@ import java.util.List;
 
 public class TransactionController {
     private final List<Transaction> transactions = new ArrayList<>();
-    private final String DATA_FILE = "transactions.json";
 
-    // 自定义的 TypeAdapter 用于处理 LocalDate
+    private String DATA_FILE = "transactions.json"; // default value for backward compatibility
+    private User currentUser; // Store the logged-in user
+
+    // Overloaded constructor with user
+    public TransactionController(User user) {
+        this.currentUser = user;
+        this.DATA_FILE = "PersonalFinanceTracker/transactions_" + user.getUsername() + ".json";
+    }
+
+    // Default constructor kept for compatibility (not used in login-based version)
+    public TransactionController() {}
+
+    // A custom TypeAdapter is used to handle LocalDate
     private static class LocalDateAdapter implements JsonSerializer<LocalDate>, JsonDeserializer<LocalDate> {
         private final DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE;
 
@@ -32,12 +44,13 @@ public class TransactionController {
 
     public void addTransaction(Transaction t) {
         transactions.add(t);
-        saveTransactions(); // 自动保存
+        transactions.sort((o1,o2) -> o2.getDate().compareTo(o1.getDate()));
+        saveTransactions(); // Auto-save
     }
 
     public void importTransactions(List<Transaction> importedTransactions) {
         transactions.addAll(importedTransactions);
-        saveTransactions(); // 自动保存
+        saveTransactions(); // Auto-save
     }
 
     public List<Transaction> getAllTransactions() {
@@ -59,24 +72,42 @@ public class TransactionController {
         }
     }
 
-    // 添加并自动分类交易
+    // Add and automatically categorize transactions
     public void addAndCategorizeTransaction(Transaction transaction) {
-        // 使用分类器自动分类
+        // Use classifiers to automatically classify
         Transaction categorizedTransaction = TransactionCategorizer.categorize(transaction);
         transactions.add(categorizedTransaction);
         saveTransactions();
         notifyListeners();
     }
 
-    // 更新交易分类
+    // Delete Transaction
+    public void deleteTransaction(int index) {
+        if (index >= 0 && index < transactions.size()) {
+            transactions.remove(index);
+            saveTransactions();
+            notifyListeners();
+        }
+    }
+
+    // Update Transaction
+    public void updateTransaction(int index, Transaction newTransaction) {
+        if (index >= 0 && index < transactions.size()) {
+            transactions.set(index, newTransaction);
+            saveTransactions();
+            notifyListeners();
+        }
+    }
+
+    // Update the transaction category
     public void updateCategory(int index, String newCategory) {
         if (index >= 0 && index < transactions.size()) {
             Transaction oldTransaction = transactions.get(index);
 
-            // 记录用户的修正用于机器学习
+            // Record the user's remediation for machine learning
             TransactionCategorizer.recordUserCorrection(oldTransaction, newCategory);
 
-            // 创建新的交易对象，只更新类别
+            // Create a new transaction with updated category
             Transaction updatedTransaction = new Transaction(
                     oldTransaction.getType(),
                     newCategory,
@@ -92,7 +123,7 @@ public class TransactionController {
         }
     }
 
-    // 对所有交易重新分类
+    // Reclassify all transactions
     public void recategorizeAll() {
         List<Transaction> recategorized = TransactionCategorizer.categorizeAll(new ArrayList<>(transactions));
         transactions.clear();
@@ -101,18 +132,18 @@ public class TransactionController {
         notifyListeners();
     }
 
-    // 添加监听器相关代码
+    // Add listener-related code
     private List<TransactionChangeListener> listeners = new ArrayList<>();
 
     /**
-     * 添加交易变更监听器
+     * Add a transaction change listener
      */
     public void addChangeListener(TransactionChangeListener listener) {
         listeners.add(listener);
     }
 
     /**
-     * 通知所有监听器交易已变更
+     * Notify all listeners that the transaction has changed
      */
     private void notifyListeners() {
         for (TransactionChangeListener listener : listeners) {
@@ -121,24 +152,24 @@ public class TransactionController {
     }
 
     /**
-     * 导入CSV文件
+     * Import a CSV file
      */
     public void importFromCSV(String filePath) {
-        // 使用CSVImporter导入数据并自动分类
+        // Use CSVImporter to import data and automatically classify it
         CSVImporter importer = new CSVImporter();
         List<Transaction> importedTransactions = importer.importTransactions(filePath);
 
-        // 对导入的交易进行自动分类
+        // Automatically classify imported transactions
         List<Transaction> categorizedTransactions = TransactionCategorizer.categorizeAll(importedTransactions);
 
-        // 添加到现有交易列表
+        // Add to the list of existing transactions
         transactions.addAll(categorizedTransactions);
         saveTransactions();
         notifyListeners();
     }
 
     /**
-     * 交易变更监听器接口
+     * Transaction change listener interface
      */
     public interface TransactionChangeListener {
         void onTransactionsChanged();
@@ -157,6 +188,9 @@ public class TransactionController {
             Type listType = new TypeToken<ArrayList<Transaction>>() {}.getType();
             transactions.clear();
             transactions.addAll(gson.fromJson(reader, listType));
+            transactions.sort((o1,o2) -> {
+                return o2.getDate().compareTo(o1.getDate());
+            });
         } catch (IOException e) {
             e.printStackTrace();
         }

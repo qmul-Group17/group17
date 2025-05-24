@@ -8,6 +8,7 @@ import controller.MLTransactionCategorizer;
 import controller.AppConfig;
 import controller.CSVImporter;
 import view.MainFrame;
+import view.LoginFrame;
 import model.Transaction;
 import model.Budget;
 import model.UserPreferences;
@@ -17,9 +18,12 @@ import util.AIUtils;
 public class Main {
 
     public static void main(String[] args) {
-        // 初始化配置
-        AppConfig.init();
-
+    AppConfig.init();
+    
+    javax.swing.SwingUtilities.invokeLater(() -> {
+        new LoginFrame(); // Show login/register first
+    });
+      
         // 初始化用户偏好设置
         UserPreferences userPreferences = new UserPreferences();
 
