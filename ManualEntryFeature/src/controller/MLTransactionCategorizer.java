@@ -73,47 +73,46 @@ public class MLTransactionCategorizer {
 
     /**
      * Check if a transaction is a Spring Festival red packet based on date and amount
-     * 检查是否为春节红包：1月28日到2月16日，且金额能整除100的转账收入
      */
     private static boolean isSpringFestivalRedPacket(Transaction transaction) {
-        // 只检查收入类型的交易
+        // Only check income-type transactions
         if (transaction.getType() != Transaction.Type.INCOME) {
             return false;
         }
 
-        // 检查日期范围：1月28日到2月16日
+        // Check the date range.  
         LocalDate date = transaction.getDate();
         if (date == null) {
             return false;
         }
 
-        // 获取月份和日期
+        // Get the month and date.
         int month = date.getMonthValue();
         int day = date.getDayOfMonth();
 
         boolean inDateRange = false;
         if (month == 1 && day >= 28) {
-            inDateRange = true; // 1月28日及以后
+            inDateRange = true; // From January 28
         } else if (month == 2 && day <= 16) {
-            inDateRange = true; // 2月16日及以前
+            inDateRange = true; // To February 16
         }
 
         if (!inDateRange) {
             return false;
         }
 
-        // 检查金额是否能整除100
+        // Check if the amount is divisible by 100.
         double amount = transaction.getAmount();
         if (amount <= 0 || amount % 100 != 0) {
             return false;
         }
 
-        // 检查是否为转账收入（通过关键词或来源判断）
+        // Check if it is a transfer income (determined by keywords or source).
         String note = transaction.getNote() != null ? transaction.getNote().toLowerCase() : "";
         String source = transaction.getSource() != null ? transaction.getSource().toLowerCase() : "";
         String textToCheck = note + " " + source;
 
-        // 转账相关关键词
+        // Transfer-related keywords
         List<String> transferKeywords = Arrays.asList(
                 "转账", "转入", "收到转账", "transfer", "received", "收款", "微信", "支付宝",
                 "wechat", "alipay", "银行转账", "bank transfer"
@@ -482,7 +481,7 @@ public class MLTransactionCategorizer {
 
             String content = apiResponse.substring(contentStart, contentEnd);
 
-            // 清理响应，只保留类别名称
+            //Clean up the response and keep only the category names
             content = content.trim();
             System.out.println("Original API response content: " + content);
 
