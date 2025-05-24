@@ -4,7 +4,7 @@ import controller.CSVImporter;
 import controller.TransactionController;
 import controller.TransactionCategorizer;
 import model.Transaction;
-import model.User;
+import model.User; 
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -56,9 +56,6 @@ public class MainFrame extends JFrame {
     private TransactionController controller;
     private JLabel statusLabel; // Add status bar label
     private User currentUser;
-    private JLabel daysLabel;
-    private JLabel tipLabel;
-
 
     public MainFrame(User user) {// In MainFrame constructor
         super("Personal Finance Tracker");
@@ -72,10 +69,6 @@ public class MainFrame extends JFrame {
         // Create menu bar
         JMenuBar menuBar = createMenuBar();
         setJMenuBar(menuBar);
-
-        JPanel statsPanel = createStatsPanel();
-        add(statsPanel, BorderLayout.EAST);
-        updateStatsPanel();
 
         tableModel = new DefaultTableModel(new String[]{"Type", "Category", "Amount", "Date", "Note", "Source"}, 0) {
             @Override
@@ -201,7 +194,6 @@ public class MainFrame extends JFrame {
                 Transaction categorizedT = TransactionCategorizer.categorize(t);
                 controller.addTransaction(categorizedT);
                 updateTable();
-                updateStatsPanel();
                 statusLabel.setText("Added new transaction and auto-categorized as: " + categorizedT.getCategory());
             }
         });
@@ -247,7 +239,6 @@ public class MainFrame extends JFrame {
                 List<Transaction> categorizedImports = TransactionCategorizer.categorizeAll(imported);
                 controller.importTransactions(categorizedImports);
                 updateTable();
-                updateStatsPanel();
                 statusLabel.setText("Imported and auto-categorized " + imported.size() + " transactions");
             }
         });
@@ -316,7 +307,6 @@ public class MainFrame extends JFrame {
                 List<Transaction> categorizedImports = TransactionCategorizer.categorizeAll(imported);
                 controller.importTransactions(categorizedImports);
                 updateTable();
-                updateStatsPanel();
                 statusLabel.setText("Imported and auto-categorized " + imported.size() + " transactions");
             }
         });
@@ -350,7 +340,6 @@ public class MainFrame extends JFrame {
                 Transaction categorizedT = TransactionCategorizer.categorize(t);
                 controller.addTransaction(categorizedT);
                 updateTable();
-                updateStatsPanel();
                 statusLabel.setText("Added new transaction and auto-categorized as: " + categorizedT.getCategory());
             }
         });
@@ -440,7 +429,6 @@ public class MainFrame extends JFrame {
                 Transaction categorizedT = TransactionCategorizer.categorize(t);
                 controller.addTransaction(categorizedT);
                 updateTable();
-                updateStatsPanel();
             }
         });
 
@@ -454,7 +442,6 @@ public class MainFrame extends JFrame {
                 List<Transaction> categorizedImports = TransactionCategorizer.categorizeAll(imported);
                 controller.importTransactions(categorizedImports);
                 updateTable();
-                updateStatsPanel();
             }
         });
 
@@ -523,7 +510,6 @@ public class MainFrame extends JFrame {
                 // Use controller's import method, which will handle categorization
                 controller.importFromCSV(filePath);
                 updateTable();
-                updateStatsPanel();
                 statusLabel.setText("Imported and auto-categorized transactions");
             }
         });
@@ -1102,11 +1088,6 @@ public class MainFrame extends JFrame {
             allCategories.add(t.getCategory());
         }
 
-        UIManager.put("OptionPane.okButtonText", "OK");
-        UIManager.put("OptionPane.cancelButtonText", "Cancel");
-        UIManager.put("OptionPane.yesButtonText", "Yes");
-        UIManager.put("OptionPane.noButtonText", "No");
-
         JFrame chartFrame = new JFrame("Transaction Charts");
         chartFrame.setLayout(new BorderLayout());
         chartFrame.setSize(800, 650);  // Increase height to accommodate Notes section
@@ -1142,11 +1123,6 @@ public class MainFrame extends JFrame {
         summaryPanel.add(incomeLabel);
         summaryPanel.add(expenseLabel);
         summaryPanel.add(budgetLabel);
-
-        JLabel instruction = new JLabel("Double-click budget to edit");
-        instruction.setFont(new Font("Dialog", Font.ITALIC, 11));
-        instruction.setForeground(Color.GRAY);
-        summaryPanel.add(instruction);
 
         JPanel infoPanel = new JPanel(new BorderLayout());
         infoPanel.add(summaryPanel, BorderLayout.NORTH);
@@ -1327,25 +1303,13 @@ public class MainFrame extends JFrame {
         chartFrame.add(notesPanel, BorderLayout.SOUTH);
 
         // Transaction details panel moved to middle area bottom
-        // Create detail panel
         JPanel detailPanel = new JPanel(new BorderLayout());
-        detailPanel.setBackground(new Color(240, 230, 255)); // match Notes section
-
-// Create detail area and scroll
-        JTextArea detailArea = new JTextArea(5, 80); // trigger scroll after 3 lines
-        detailArea.setFont(new Font("Monospaced", Font.PLAIN, 12));
-        detailArea.setLineWrap(false); // disable auto wrap
-        detailArea.setWrapStyleWord(false);
+        JTextArea detailArea = new JTextArea();
+        detailArea.setPreferredSize(new Dimension(780, 100));
         detailArea.setEditable(false);
-        detailArea.setBackground(new Color(245, 240, 255)); // light purple background
-
-        JScrollPane scrollPane = new JScrollPane(detailArea);
-        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        scrollPane.getViewport().setBackground(new Color(240, 230, 255));
-
+        JScrollPane scrollPane = new JScrollPane(detailArea, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        scrollPane.setPreferredSize(new Dimension(780, 120));
         detailPanel.add(scrollPane, BorderLayout.CENTER);
-
 
         // Create middle main content panel, including charts and details
         JPanel mainContentPanel = new JPanel(new BorderLayout());
@@ -1359,15 +1323,7 @@ public class MainFrame extends JFrame {
         budgetLabel.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
                 if (e.getClickCount() == 2) {
-                    String input = (String) JOptionPane.showInputDialog(
-                            chartFrame,                                      // parent
-                            "Enter new budget amount (RMB):",                // message
-                            "Set Budget",                                    // title ✅ 你要显示的英文标题
-                            JOptionPane.PLAIN_MESSAGE,                       // message type
-                            null,                                            // icon
-                            null,                                            // selectionValues
-                            monthlyBudget[0]                                 // initial value
-                    );
+                    String input = JOptionPane.showInputDialog(chartFrame, "Enter new budget amount (RMB):", monthlyBudget[0]);
                     if (input != null) {
                         try {
                             double newBudget = Double.parseDouble(input);
@@ -1377,8 +1333,7 @@ public class MainFrame extends JFrame {
                                 updateCharts[0].run();
                             }
                         } catch (NumberFormatException ex) {
-                            JOptionPane.showMessageDialog(chartFrame, "Invalid number.", "Input Error", JOptionPane.INFORMATION_MESSAGE);
-
+                            JOptionPane.showMessageDialog(chartFrame, "Invalid number.");
                         }
                     }
                 }
@@ -1545,65 +1500,4 @@ public class MainFrame extends JFrame {
             e.printStackTrace();
             return null;
         }
-    }
-
-    private JPanel createStatsPanel() {
-        JPanel panel = new JPanel();
-        panel.setPreferredSize(new Dimension(250, 0));
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        panel.setBorder(BorderFactory.createEmptyBorder(20, 10, 20, 10));
-
-        JLabel title = new JLabel("You have accumulated accounting:");
-        title.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-        daysLabel = new JLabel("0");
-        daysLabel.setFont(new Font("SansSerif", Font.BOLD, 32));
-        daysLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-        JLabel daysText = new JLabel("days");
-        daysText.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-        JSeparator separator = new JSeparator();
-        separator.setMaximumSize(new Dimension(200, 10));
-        separator.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-        JLabel tipTitle = new JLabel("Tip:");
-        tipTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-        tipLabel = new JLabel("Loading...");
-        tipLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        tipLabel.setMaximumSize(new Dimension(200, 50));
-        tipLabel.setHorizontalAlignment(SwingConstants.CENTER);
-
-        panel.add(title);
-        panel.add(Box.createVerticalStrut(20));
-        panel.add(daysLabel);
-        panel.add(daysText);
-        panel.add(Box.createVerticalStrut(20));
-        panel.add(separator);
-        panel.add(Box.createVerticalStrut(10));
-        panel.add(tipTitle);
-        panel.add(Box.createVerticalStrut(5));
-        panel.add(tipLabel);
-
-        return panel;
-    }
-
-    private void updateStatsPanel() {
-        List<Transaction> transactions = controller.getAllTransactions();
-        Set<String> uniqueEditDates = new HashSet<>();
-
-        for (Transaction t : transactions) {
-            uniqueEditDates.add(t.getEditTime().toString());
-        }
-
-        daysLabel.setText(String.valueOf(uniqueEditDates.size()));
-
-        String today = LocalDate.now().toString();
-        if (uniqueEditDates.contains(today)) {
-            tipLabel.setText("<html><center>✅ You've recorded today!</center></html>");
-        } else {
-            tipLabel.setText("<html><center>⚠️ You haven't recorded today!</center></html>");
-        }
-    }
-}
+    }}
