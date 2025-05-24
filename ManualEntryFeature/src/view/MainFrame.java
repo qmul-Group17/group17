@@ -268,13 +268,13 @@ public class MainFrame extends JFrame {
             }
         });
 
-        // FIXED: Define buttonPanel and define aiAnalysisButton before using it
+        // Define buttonPanel and define aiAnalysisButton before using it
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 
-        // FIXED: Define aiAnalysisButton before referencing it
+        // Define aiAnalysisButton before referencing it
         JButton aiAnalysisButton = new JButton("AI Analysis");
 
-        // FIXED: Removed duplicate buttonsPanel and properly organized buttons
+        // Removed duplicate buttonsPanel and properly organized buttons
         buttonPanel.add(addBtn);
         buttonPanel.add(exportBtn);
         buttonPanel.add(importBtn);
@@ -289,11 +289,11 @@ public class MainFrame extends JFrame {
             controller.recategorizeAll();
             updateTable();
 
-            // 根据当前的分类模式显示不同的状态消息
+            // Show different status by checking mode
             if (TransactionCategorizer.isUsingSimpleMode()) {
                 statusLabel.setText("All transactions recategorized using keyword matching (including Chinese context)");
             } else {
-                // 检查是否启用了API
+                // check if API is used
                 if (AppConfig.isUseAPI()) {
                     statusLabel.setText("All transactions recategorized using AI classification with Chinese lifestyle patterns");
                 } else {
