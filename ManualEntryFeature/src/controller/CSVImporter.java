@@ -15,7 +15,7 @@ import java.util.List;
 
 public class CSVImporter {
 
-    // 支持的日期格式
+    // Supported date formats
     private static final DateTimeFormatter[] DATE_FORMATTERS = {
             DateTimeFormatter.ofPattern("yyyy-MM-dd"),
             DateTimeFormatter.ofPattern("yyyy/MM/dd"),
@@ -32,65 +32,65 @@ public class CSVImporter {
             String line;
             boolean isFirstLine = true;
 
-            // 读取CSV文件
+            // Read the CSV file
             while ((line = br.readLine()) != null) {
-                // 跳过表头
+                // Skip the header
                 if (isFirstLine) {
                     isFirstLine = false;
                     continue;
                 }
 
                 try {
-                    // 首先尝试使用简单的逗号分隔
+                    // Try using a simple comma separation first
                     String[] parts = line.split(",");
 
-                    // 如果分割结果不够，尝试使用更复杂的CSV解析
+                    // If the split results are not enough, try using more complex CSV parsing
                     if (parts.length < 4) {
                         parts = parseCSVLine(line);
                     }
 
                     if (parts.length < 4) {
-                        System.err.println("跳过无效行: " + line);
+                        System.err.println("Skip invalid lines: " + line);
                         continue;
                     }
 
-                    // 解析类型
+                    // Resolution type
                     Type type = parseType(parts[0]);
 
-                    // 解析金额 (先保留原始分类，后面会由AI重新分类)
+                    // Parse amount (keep the original classification first, and then the AI will reclassify it later)
                     String category = parts.length > 1 ? parts[1].trim() : "Pending";
 
-                    // 解析金额
+                    // Parse the amount
                     double amount = parseAmount(parts[2]);
 
-                    // 解析日期
+                    // Parse date
                     LocalDate date = parseDate(parts[3]);
 
-                    // 解析备注和来源
+                    // Parse notes and sources
                     String note = parts.length > 4 ? parts[4].trim() : "";
-                    String source = parts.length > 5 ? parts[5].trim() : "CSV导入";
+                    String source = parts.length > 5 ? parts[5].trim() : "CSV import";
 
-                    // 创建交易记录 - 注意这里不直接分类，保留原始分类或使用"Pending"
-                    // 后续会在MainFrame中使用TransactionCategorizer进行分类
-                    // 不对交易进行立即分类，让控制器处理分类
-                    Transaction transaction = new Transaction(type, "待分类", amount, date, note, source);
+                    // Create a transaction record - note that there is no direct classification here, keep the original classification or use "Pending"
+                    // In the future, the TransactionCategorizer will be used in the MainFrame for classification
+                    // Transactions are not categorized immediately, let the controller handle the categorization
+                    Transaction transaction = new Transaction(type, "To be classified", amount, date, note, source);
                     transactions.add(transaction);
 
                 } catch (Exception e) {
-                    System.err.println("解析行时出错: " + line + ", 错误: " + e.getMessage());
+                    System.err.println("Error parsing line: " + line + ", error: " + e.getMessage());
                 }
             }
         } catch (IOException e) {
-            System.err.println("导入CSV失败: " + e.getMessage());
+            System.err.println("Failed to import CSV: " + e.getMessage());
         }
 
         return transactions;
     }
 
     /**
-     * 从CSV文件导入交易
-     * @param filePath CSV文件路径
-     * @return 导入的交易列表
+     * Import transactions from a CSV file
+     * @param filePath CSV file path
+     * @return A list of imported transactions
      */
     public List<Transaction> importTransactions(String filePath) {
         List<Transaction> transactions = new ArrayList<>();
@@ -100,17 +100,17 @@ public class CSVImporter {
             boolean isFirstLine = true;
 
             while ((line = br.readLine()) != null) {
-                // 跳过表头
+                // Skip the header
                 if (isFirstLine) {
                     isFirstLine = false;
                     continue;
                 }
 
-                // 解析CSV行
+                // Parse CSV rows
                 String[] values = line.split(",");
                 if (values.length >= 6) {
                     try {
-                        // 创建交易对象
+                        // Create a trading object
                         Transaction.Type type = Transaction.Type.valueOf(values[0].trim());
                         String category = values[1].trim();
                         double amount = Double.parseDouble(values[2].trim());
@@ -121,19 +121,19 @@ public class CSVImporter {
                         Transaction transaction = new Transaction(type, category, amount, date, note, source);
                         transactions.add(transaction);
                     } catch (Exception e) {
-                        System.err.println("解析CSV行失败: " + e.getMessage());
+                        System.err.println("Parsing CSV rows failed: " + e.getMessage());
                     }
                 }
             }
         } catch (IOException e) {
-            System.err.println("读取CSV文件失败: " + e.getMessage());
+            System.err.println("Failed to read CSV file: " + e.getMessage());
         }
 
         return transactions;
     }
 
     /**
-     * 解析CSV行（处理引号内的逗号）
+     * Parsing CSV lines (handling commas inside quotation marks)
      */
     private static String[] parseCSVLine(String line) {
         List<String> values = new ArrayList<>();
@@ -156,7 +156,7 @@ public class CSVImporter {
     }
 
     /**
-     * 解析交易类型
+     * Parse the transaction type
      */
     private static Type parseType(String value) {
         String normalized = value.trim().toUpperCase();
@@ -171,38 +171,38 @@ public class CSVImporter {
     }
 
     /**
-     * 解析金额
+     * Parse the amount
      */
     private static double parseAmount(String value) {
-        // 移除货币符号和逗号
+        // Remove currency symbols and commas
         String normalized = value.replaceAll("[¥$,]", "").trim();
         return Double.parseDouble(normalized);
     }
 
     /**
-     * 尝试用不同格式解析日期
+     * Try parsing the date in a different format
      */
     private static LocalDate parseDate(String value) {
         String normalized = value.trim();
 
-        // 首先尝试直接解析
+        // Try parsing directly first
         try {
             return LocalDate.parse(normalized);
         } catch (DateTimeParseException ignored) {
-            // 如果直接解析失败，尝试其他格式
+            // If direct parsing fails, try a different format
         }
 
-        // 尝试不同的日期格式
+        // Experiment with different date formats
         for (DateTimeFormatter formatter : DATE_FORMATTERS) {
             try {
                 return LocalDate.parse(normalized, formatter);
             } catch (DateTimeParseException ignored) {
-                // 继续尝试下一个格式
+                // Go ahead and try the next format
             }
         }
 
-        // 如果所有格式都失败，使用当前日期
-        System.err.println("无法解析日期: " + value + ", 使用当前日期");
+        // If all formatting fails, the current date is used
+        System.err.println("Unable to resolve date: " + value + ", use the current date");
         return LocalDate.now();
     }
 }
