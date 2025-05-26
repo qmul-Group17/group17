@@ -36,6 +36,12 @@
   - JFreeChart pie chart for income/expense distribution and line chart for trends
   - Budget expression with expenditure
 
+- **AI Financial Analysis**
+    - Chinese context-aware spending pattern analysis
+    - Budget habit analysis with cultural insights
+    - Shopping festival detection (Double 11, 618, Spring Festival)
+    - Red packet transaction recognition
+    - Personalized financial recommendations with seasonal context
 
 
 ---
@@ -170,18 +176,6 @@ PersonalFinanceTracker/
 - **Performance Optimization**: Efficient data processing and visualization
 - **Cross-Platform Compatibility**: Pure Java implementation
 
----
-
-## 👥 Development Team
-
-**Group 17 - Queen Mary University of London**
-
-*This project demonstrates advanced software engineering principles including:*
-- 🧪 **Test-Driven Development (TDD)**
-- 🏗️ **Model-View-Controller (MVC) Architecture**
-- 🤖 **Artificial Intelligence Integration**
-- 🌍 **Cultural Context Awareness**
-- 📊 **Data Visualization and Analytics**
 
 ---
 
@@ -199,7 +193,15 @@ PersonalFinanceTracker/
 
 ## 👥 Authors
 
-Developed by Group 17 (QMUL)
+**Group 17 - Queen Mary University of London**
+
+*This project demonstrates advanced software engineering principles including:*
+- 🧪 **Test-Driven Development (TDD)**
+- 🏗️ **Model-View-Controller (MVC) Architecture**
+- 🤖 **Artificial Intelligence Integration**
+- 🌍 **Cultural Context Awareness**
+- 📊 **Data Visualization and Analytics**
+
 
 
 ## 📜 License & Academic Use
