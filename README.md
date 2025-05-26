@@ -1,100 +1,224 @@
+# 💰 Personal Finance Tracker 
 
-# Personal Finance Tracker - Core Development Phase
+**A sophisticated Java Swing-based personal finance management system with AI-powered Chinese context awareness, multi-user support, and intelligent transaction categorization.**
 
-This project is a personal finance tracker built with Java, focusing on foundational functionality for recording and managing individual transactions. This repository reflects the **first phase** of development, along with partial progress into the second phase.
+<div align="center">
+  
+![Java](https://img.shields.io/badge/Java-8+-blue?style=flat-square&logo=java)
+![Swing](https://img.shields.io/badge/GUI-Swing-green?style=flat-square)
+![AI](https://img.shields.io/badge/AI-Powered-purple?style=flat-square)
+![Chinese](https://img.shields.io/badge/Context-Chinese-red?style=flat-square)
 
-## Phase 1: Core Functionalities
+*Developed by **Group 17** - Queen Mary University of London*
 
-### ✅ US1: Manual Expense Entry
-- **Description**: Allows users to manually input expenses and income.
-- **Implemented Features**:
-  - Input fields: type (expense/income), category, amount, date, note, and source.
-  - Category presets for income and expense (with the ability to add custom ones).
-  - Expenditure category including food, transport, shopping, health, travel, beauty, entertainment, transfer, housing, social, education, communication, red packet, investment, lend, repayment, parenting, pet, others.
-  - Income category including transfer in, salary, investment, red packet in, borrow, receive, others.
-  - Local data persistence using a built-in `.json` file to simulate a simple database.
-- **Status**: Completed
+</div>
 
-### ✅ US4: Multi-Currency Support
-- **Description**: In the manual addition of transactions, add the option of amount unit to support multi-currency input.
-- **Implemented Features**:
-  - When manually entering the transaction amount, users can select Chinese Yuan (CNY), US Dollar (USD), British Pound (GBP), Euro (EUR), Japanese Yen (JPY), and South Korean Won (KRW), which will be automatically converted to RMB according to the proposed exchange rate and finally displayed as RMB.
-  - Stored and exported along with each transaction.
-- **Status**: Completed (basic field-level support, no conversion logic yet)
+---
 
+## ✨ Features
 
+- **User Registration & Login**  
+  - Secure login with SHA-256 hashed passwords  
+  - All users stored in `users.json`
 
-### ✅ US10: Bill Export Function
-- **Description**: Allows users to export their financial data (transactions) to a CSV file for external use, reporting, or backup purposes.
-- **Implemented Features**: 
-  - **Export to CSV**: Users can export all transaction data, or a filtered subset, into a CSV format. The CSV file includes details such as transaction type (income/expense), category, amount, date, description, and source.
-  - **User-Friendly Interface**: A button labeled "Export CSV" is provided within the main application interface. Upon clicking this button, the user is prompted to choose a file location to save the CSV file.
-  - **Automatic Data Generation**: The exported file automatically includes all data currently stored in the system. The system ensures that each entry in the CSV file matches the current structure of the transaction data, including any manual entries, imported transactions, and modified data.
-  - **Customizable Filters**: Users can apply filters to export only specific categories, date ranges, or transaction types (e.g., only expenses or only income). This allows for more granular data extraction, enabling users to generate customized reports.
-  - **File Format**: The file is saved in the standard CSV format, which can be opened and manipulated using spreadsheet software such as Microsoft Excel or Google Sheets.
-  - **Support for Large Datasets**: The export function is optimized to handle a large number of transactions, ensuring that the file generation remains responsive even with substantial data volumes.
-- **Status**: Completed (basic version)
+- **Per-User Transaction Files**  
+  - Each user has a separate file: `transactions_<username>.json`
 
-  **Use Case**:
-  - A user wants to create a monthly financial report or submit tax-related information. They can export their transactions for that month or year to a CSV file and open it in Excel to analyze or print it.
+- **Manual Entry and Categorization**  
+  - Add/edit/delete income or expense records
+  - AI or keyword-based auto-categorization
 
-## Phase 2: Data Input & Categorization
+- **CSV Import & Export**  
+  - Import existing transactions from `.csv`
+  - Export table data as `output.csv`
 
-### ✅ US3: Import CSV Files
-- **Description**: Enables importing external transaction records via CSV.
-- **Status**: Completed
+- **Chart Visualization**  
+  - JFreeChart pie chart for income/expense distribution and line chart for trends
+  - Budget expression with expenditure
 
-### ✅ US7: AI Auto Categorization
-- **Description**: Uses a dual-tier intelligent categorization system to automatically classify transactions.
-    1.Simple Mode: Keywords-based pattern matching for basic categorization
-    2.API Mode: DeepSeek Chat API for high-accuracy AI-powered categorization
-- **Implemented Features**: 
-    1.Automatic categorization during transaction import and manual entry
-    2.User correction tracking to improve future categorization accuracy
-    3.AI classification through DeepSeek API that analyzes transaction description, amount, date, and source
-    4.Toggle between simple keyword mode and API mode
-    5.Configuration panel for API settings (URL and key)
-- **Planned Upgrade**:Planning to add AI-powered expense analysis and summary reports
-- **Status**: Completed (basic version)
+- **AI Financial Analysis**
+    - Chinese context-aware spending pattern analysis
+    - Budget habit analysis with cultural insights
+    - Shopping festival detection (Double 11, 618, Spring Festival)
+    - Red packet transaction recognition
+    - Personalized financial recommendations with seasonal context
 
 
-### ⏳ US9: Manual Category Adjustment
-- **Description**: Allows users to manually correct or modify the category of an automatically categorized transaction.
-- **Status**: Not yet implemented
+---
 
-## Additional Contributions
+### 📂 **Project Structure**
+```
+PersonalFinanceTracker/
+├── 📁 bin/                        # Compiled classes
+├── 📁 lib/                        # External dependencies
+│   ├── gson-2.10.1.jar           # JSON processing
+│   ├── jfreechart-1.5.3.jar      # Chart visualization
+│   └── junit-platform-console-standalone-1.9.2.jar  # Testing
+├── 📁 src/                        # Source code
+│   ├── 📁 controller/             # Business logic
+│   │   ├── AppConfig.java
+│   │   ├── TransactionController.java
+│   │   ├── UserController.java
+│   │   ├── TransactionCategorizer.java
+│   │   ├── MLTransactionCategorizer.java
+│   │   └── CSVImporter.java
+│   ├── 📁 model/                  # Data models
+│   │   ├── Transaction.java
+│   │   ├── User.java
+│   │   └── Currency.java
+│   ├── 📁 util/                   # Utilities
+│   │   ├── HashUtil.java
+│   │   └── JsonUtil.java
+│   ├── 📁 view/                   # UI components
+│   │   ├── MainFrame.java
+│   │   ├── LoginFrame.java
+│   │   ├── EditTransactionDialog.java
+│   │   ├── TransactionDialog.java
+│   │   └── APISettingsDialog.java
+│   └── Main.java                  # Application entry point
+├── 📁 test/                          # TDD Test Implementation
+│   ├── 📁 controller/
+│   │   ├── RedPacketDetectionTDDTest.java    # 🔴🟢🔵 TDD Example
+│   │   └── TransactionCategorizerTest.java   # Transaction categorization tests
+│   └── 📁 model/
+│       └── UserTest.java     
+└── 📁 PersonalFinanceTracker/     # User data storage
+    ├── users.json                 # User registry
+    └── transactions_<user>.json   # Individual user data
+```
 
-### ✅ Data Visualization & UI Refinement
-This section was independently developed and implemented.
 
-- Improved the overall UI layout for a cleaner and more intuitive experience.
-- Developed visual data analytics, including:
-  - 📊 A **pie chart** that illustrates the distribution of expenses by category.
-  - 📈 A **line chart** that tracks daily spending trends over time.
-- These charts are embedded within the application interface to assist users in understanding their financial habits more effectively.
-- **Planned Upgrade**: Planning to enable clickable categories that allow users to view all income and expense records under each category. Also planning to support rendering line charts for a specific month or a selected time range.
-- **Status**: Currently implemented global **pie chart** for expense category distribution and **line chart** for daily spending trends.
+### 🔧 **Dependencies & Technologies**
+| Technology | Version | Purpose |
+|------------|---------|---------|
+| ☕ **Java** | 8+ | Core application framework |
+| 🎨 **Swing** | Built-in | GUI framework |
+| 📊 **JFreeChart** | 1.5.3 | Advanced chart visualization |
+| 🔗 **Gson** | 2.10.1 | JSON data serialization |
+| 🧪 **JUnit** | 5 | Test-driven development |
+| 🤖 **DeepSeek API** | Latest | AI-powered analysis |
 
-## How to Run
+---
 
-1. Clone the repo  
-   `git clone https://github.com/your-org/personal-finance-tracker.git`
+## 🏆 Project Highlights
 
-2. Open in your IDE (e.g., IntelliJ or Eclipse)
+### 🎓 **Academic Excellence**
+- **Test-Driven Development**: Comprehensive TDD implementation
+- **Design Patterns**: MVC architecture with separation of concerns
+- **Code Quality**: Well-documented, maintainable codebase
+- **Cultural Awareness**: Chinese context integration
 
-3. Compile:
-   - `javac -cp "lib/gson-2.10.1.jar;lib/jfreechart-1.5.3.jar" -d out src/model/*.java src/service/*.java src/controller/*.java src/view/*.java src/Main.java`
+### 💡 **Innovation Features**
+- **AI-Powered Categorization**: First-of-its-kind Chinese context awareness
+- **Cultural Intelligence**: Shopping festival and red packet detection
+- **Smart Analytics**: Behavioral pattern recognition
+- **User Experience**: Intuitive interface with cultural considerations
 
-4. Run:
-   - `java -cp "out;lib/gson-2.10.1.jar;lib/jfreechart-1.5.3.jar" Main`
+### 🔬 **Technical Achievements**
+- **Multi-User Architecture**: Scalable user management system
+- **Data Integrity**: Robust error handling and validation
+- **Performance Optimization**: Efficient data processing and visualization
+- **Cross-Platform Compatibility**: Pure Java implementation
 
-## Team Collaboration & Division
+---
 
-| Team Member   | Contributions                                                               |
-|---------------|-----------------------------------------------------------------------------|
-| Jingxi Linag  | US1 Manual entry and local storage with JSON                                |
-| Pengzhu Guo   | US4 Multi-Currency Support                                                  |
-| Shumeng Liang | US3 Import CSV Files                                                        |
-| Yijing Wang   | US7 Auto-categorization, add AI-powered expense analysis and summary reports|
-| Xiwen Zheng   | US13 Data visualization with charts, UI/UX refinement                         |
-| Jiawen Zhang  | US10 Bill Export Function                                                        |
+## ▶️ How to Compile & Run
+
+### ⚡ **Installation & Setup**
+
+1. **Download Dependencies**
+   ```bash
+   # Ensure all JAR files are in the lib/ directory
+   lib/gson-2.10.1.jar
+   lib/jfreechart-1.5.3.jar
+   lib/junit-platform-console-standalone-1.9.2.jar
+   ```
+
+2. **Compilation**
+   ```bash
+   # Compile all source files
+   javac -cp "lib/gson-2.10.1.jar;lib/jfreechart-1.5.3.jar" -d bin src/**/*.java
+   ```
+
+3. **Execution**
+   ```bash
+   # Launch the application
+   java --add-opens java.base/java.time=ALL-UNNAMED -cp "bin;lib/gson-2.10.1.jar;lib/jfreechart-1.5.3.jar" Main
+   ```
+
+4. **Testing (Optional)**
+   ```bash
+   # Run TDD test suite
+   javac -cp "lib/junit-platform-console-standalone-1.9.2.jar;lib/gson-2.10.1.jar" -d bin test/**/*.java
+   java -cp "lib/junit-platform-console-standalone-1.9.2.jar;lib/gson-2.10.1.jar;bin" org.junit.platform.console.ConsoleLauncher --scan-classpath
+   ```
+
+
+---
+
+## 🏆 Project Highlights
+
+### 🎓 **Academic Excellence**
+- **Test-Driven Development**: Comprehensive TDD implementation
+- **Design Patterns**: MVC architecture with separation of concerns
+- **Code Quality**: Well-documented, maintainable codebase
+- **Cultural Awareness**: Chinese context integration
+
+### 💡 **Innovation Features**
+- **AI-Powered Categorization**: First-of-its-kind Chinese context awareness
+- **Cultural Intelligence**: Shopping festival and red packet detection
+- **Smart Analytics**: Behavioral pattern recognition
+- **User Experience**: Intuitive interface with cultural considerations
+
+### 🔬 **Technical Achievements**
+- **Multi-User Architecture**: Scalable user management system
+- **Data Integrity**: Robust error handling and validation
+- **Performance Optimization**: Efficient data processing and visualization
+- **Cross-Platform Compatibility**: Pure Java implementation
+
+
+---
+
+
+## 👤 Usage Instructions
+
+1. Run the app, register a new user.
+2. Login and add transactions.
+3. Check that your data is saved to:
+   - `PersonalFinanceTracker/users.json`
+   - `PersonalFinanceTracker/transactions_<username>.json`
+4. You can import/export CSV and view chart insights.
+
+---
+
+## 👥 Authors
+
+**Group 17 - Queen Mary University of London**
+
+*This project demonstrates advanced software engineering principles including:*
+- 🧪 **Test-Driven Development (TDD)**
+- 🏗️ **Model-View-Controller (MVC) Architecture**
+- 🤖 **Artificial Intelligence Integration**
+- 🌍 **Cultural Context Awareness**
+- 📊 **Data Visualization and Analytics**
+
+
+
+## 📜 License & Academic Use
+
+This project is developed for **academic purposes** as part of coursework at Queen Mary University of London. 
+
+**Features Intellectual Property:**
+- AI categorization algorithms
+- Chinese context recognition system
+- Cultural spending pattern analysis
+- Test-driven development methodology
+---
+
+<div align="center">
+
+**💡 Ready to transform your financial management experience?**
+
+*Start tracking • Let AI learn • Make informed decisions*
+
+</div>
